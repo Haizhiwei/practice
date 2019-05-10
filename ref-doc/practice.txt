@@ -1,0 +1,31 @@
+practice(pom) 									-- 集中定义依赖版本			
+├── practice-common(jar) 						-- 公共模块（通用组件工具类）
+|	├── practice-manager(pom) 					-- 后台(maven聚合工程)
+|		├──practice-manager-pojo(jar)			-- 实体类
+|		├──practice-manager-mapper(jar)			-- 持久层（mybatis）
+|		├──practice-manager-service(jar)		-- 业务层（spring）
+|		├──practice-manager-web(war)			-- 表现层（springMVC）
+├── practice-portal(war) 						-- 门户
+├── practice-sso(war) 				    		-- 单点登录（系统设置、权限设置）
+├── practice-test(war) 				    		-- 小功能的测试
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
