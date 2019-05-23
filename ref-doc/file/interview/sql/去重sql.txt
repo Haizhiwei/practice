@@ -1,0 +1,51 @@
+﻿海量数据（百万以上），其中有些全部字段都相同，有些部分字段相同，怎样高效去除重复？
+
+如果要删除手机(mobilePhone)，电话(officePhone)，邮件(email)同时都相同的数据，以前一直使用这条语句进行去重：
+
+delete from 表 where id not in
+(slect a.id from  (select max(id) from 表 group by mobilePhone,officePhone,email) a )
+or
+delete from 表 where id not in
+(select a.id from (select min(id) from 表 group by mobilePhone,officePhone,email) a )
+ 
+
+其中下面这条会稍快些。上面这条数据对于100万以内的数据效率还可以，重复数1/5的情况下几分钟到几十分钟不等，但是如果数据量达到300万以上，效率骤降，如果重复数据再多点的话，常常会几十小时跑不完，有时候会锁表跑一夜都跑不完。无奈只得重新寻找新的可行方法，今天终于有所收获：
+
+//查询出唯一数据的ID,并把他们导入临时表tmp中
+select min(id) as mid into tmp from 表 group by mobilePhone,officePhone,email
+//查询出去重后的数据并插入finally表中
+insert into finally select (除ID以外的字段) from customers_1 where id in (select mid from tmp)
+ 
+
+效率对比：用delete方法对500万数据去重（1/2重复）约4小时。4小时，很长的时间。
+
+用临时表插入对500万数据去重（1/2重复）不到10分钟。
+
+SQL语句去掉重复记录，获取重复记录
+按照某几个字段名称查找表中存在这几个字段的重复数据并按照插入的时间先后进行删除，条件取决于order by 和row_num。
+
+方法一按照多条件重复处理：
+
+delete tmp from(
+  select row_num = row_number() over(partition by 字段，字段 order by 时间 desc)
+  from 表 where 时间> getdate()-1
+) tmp
+where row_num > 1
+ 
+
+方法二按照单一条件进行去重：
+
+delete from 表 where 主键ID not in(
+　　select max(主键ID) from 表 group by 需要去重的字段 having count(需要去重的字段)>=1
+)
+ 
+
+注意：为提高效率如上两个方法都可以使用临时表， not in 中的表可以先提取临时表#tmp，
+
+然后采用not exists来执行，为避免数量过大，可批量用Top控制删除量
+
+delete top(2) from 表
+where  not exists (select 主键ID
+　　from #tmp where #tmp.主键ID=表.主键ID)
+ 
+ 

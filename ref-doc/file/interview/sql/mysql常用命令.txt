@@ -1,0 +1,107 @@
+show databases；                       显示数据库
+
+create database  <database-name> character set utf-8；    创建数据库并设置默认字符集为utf-8
+alter database <database-name> character set utf-8;       修改数据库的编码为utf-8
+或者 set character_set_database=utf8;
+
+use <database-name>                    跳转到该数据库
+show variables like 'character%';      查看数据库编码
+
+
+drop table if exists <table-name>      表存在就删除
+create table <table-name>(
+	id   int(4) primary auto_increment,
+	name varchar(4),
+        subject varchar(4),
+	.......
+);
+select distinct <column-name> from <table-name> 有多个值的情况下，取一个。
+
+数据插入
+insert into <table-name>(<column-name>,<column-name>,.....) values(value1,value2,....) 根据字段对应插入
+insert into <table-name> values(),(),()....; 全插入；
+
+设置一张表的所有编码格式：
+alter table <table-name> convert to character set utf8;
+修改表的编码格式：alter table <table-name> default character set utf8;
+
+
+
+
+
+
+
+eg：
+表名为tb_score
++----+------+---------+-------+
+| id | name | subject | score |
++----+------+---------+-------+
+|  1 | 张三 | 语文    |    81 |
+|  2 | 张三 | 数学    |    75 |
+|  3 | 李四 | 语文    |    76 |
+|  4 | 李四 | 数学    |    90 |
+|  5 | 王五 | 语文    |    81 |
+|  6 | 王五 | 数学    |   100 |
+|  7 | 王五 | 英语    |    90 |
++----+------+---------+-------+
+要求：查询出每门课都大于80分的学生
+思路：(把小变成大做，把大变成小)
+先查询出有低于80分的学生：select distinct name from tb_score where score<=80;
+在要求没门课都高于80分的学生姓名不属于上面查询到的名字里面，即为：
+select distinct name from tb_score where not in (select name from tb_score where score<=80);
+二：select name from tb_score group by name having min(score)>80
+
+表名为：team
++------+
+| name |
++------+
+| a    |
+| b    |
+| c    |
+| d    |
++------+
+要求：查询出name字段的所有组合
+思路：先二者不是同一个就可以组合（!=）,但会造成重复组合，如a-b,b-a;
+      因此是前者>后者，或<后者(表自连接)
+select a.name,b.name from team a, team b where a.name<b.name
+
+
+// foreign key(parentid) references articles(id) 建外键
+//mysql constraint parent_id foreign key(parentid) references articles(id)
+//显示文章标题，发帖人，最后回复时间
++----+--------------+----------+---------------------+----------+
+| id | title        | postuser | postdate            | parentid |
++----+--------------+----------+---------------------+----------+
+|  1 | 第一条       | 张三     | 1998-10-10 12:32:32 | NULL     |
+|  2 | 第二条       | 张三     | 1998-10-10 12:34:32 | NULL     |
+|  3 | 第一条回复 1 | 李四     | 1998-10-10 12:35:32 |        1 |
+|  4 | 第二条回复 1 | 李四     | 1998-10-10 12:36:32 |        2 |
+|  5 | 第一条回复 2 | 王五     | 1998-10-10 12:37:32 |        1 |
+|  6 | 第一条回复 3 | 李四     | 1998-10-10 12:38:32 |        1 |
+|  7 | 第二条回复 2 | 李四     | 1998-10-10 12:39:32 |        2 |
+|  8 | 第一条回复 4 | 王五     | 1998-10-10 12:39:40 |        1 |
++----+--------------+----------+---------------------+----------+
+思路：设置外键约束parentid有值，就必须是id的值（父）
+      要查发帖人即为parentid为null，查询出最大回复时间max(postdate)就必须要parentid=a.id
+      
+create table articles(
+   id int(6) primary key auto_increment,
+   title varchar(50),
+   postuser varchar(10),
+   postdate datetime, 
+   parentid int(6),
+   constraint parent_id foreign key(parentid)
+   references articles(id)
+);
+ 
+select a.title,a.postuser,
+       (select max(postdate) from articles where parentid=a.id) reply
+  from articles a 
+where a.parentid is null;
+
+去重：
+注意使用 group by 和 distinct
+
+
+
+

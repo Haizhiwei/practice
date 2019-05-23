@@ -1,0 +1,32 @@
+配置maven里settings.xml以及阿里云镜像服务器的方法
+
+配置阿里云镜像服务器
+-----下面有apache-maven-3.5.2下载地址 
+-----其主要修改settings.xml配置文件 （其中主要修改三个地方）
+
+1.在settings标签下，加入这一段<localRepository>D:\maven-repository\repository</localRepository>   ----修改本地仓库
+ 地址D:\maven-repository\repository这是我的仓库地址。可按自己需要修改
+
+  <localRepository>D:\maven-repository\repository</localRepository>
+
+2.配置阿里云镜像服务器。在mirrors标签里添加以下一段即可。
+ <mirror>  
+     <id>alimaven</id>  
+     <name>aliyun maven</name>  
+     <url>http://maven.aliyun.com/nexus/content/groups/public/</url>  
+     <mirrorOf>central</mirrorOf>          
+ </mirror> 
+
+3.在profiles标签下加入以下一段话修改jdk版本。按自己所需配置即可
+<profile>    
+     <id>jdk-1.8</id>    
+      <activation>    
+           <activeByDefault>true</activeByDefault>    
+           <jdk>1.8</jdk>    
+        </activation>    
+  <properties>    
+  <maven.compiler.source>1.8</maven.compiler.source>    
+  <maven.compiler.target>1.8</maven.compiler.target>    
+  <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>    
+ </properties>    
+ </profile> 

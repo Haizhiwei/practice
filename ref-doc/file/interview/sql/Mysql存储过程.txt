@@ -1,0 +1,195 @@
+Mysql存储过程
+delimiter //        							 #声明语句结束符，用于区分;
+create procedure demo_in_parameter(IN p_in int)  #声明存储过程 
+  BEGIN …. END  存储过程开始和结束符号 
+  SET @p_in=1   变量赋值 
+  declare l_int int unsigned default 4000000;  变量定义
+
+---------------------
+什么是mysql存储例程? 
+存储例程是存储在数据库服务器中的一组sql语句，通过在查询中调用一个指定的名称来执行这些sql语句命令.
+
+为什么要使用mysql存储过程？ 
+  我们都知道应用程序分为两种，一种是基于web，一种是基于桌面，他们都和数据库进行交互来完成数据的存取工作。
+  假设现在有一种应用程序包含了这两 种，现在要修改其中的一个查询sql语句，那么我们可能要同时修改他们中对应的
+  查询sql语句，当我们的应用程序很庞大很复杂的时候问题就出现这，不易维 护！另外把sql查询语句放在我们的web程序
+  或桌面中很容易遭到sql注入的破坏。而存储例程正好可以帮我们解决这些问题。
+
+  
+存储过程(stored procedure)、存储例程(store routine)、存储函数区别 
+  Mysql存储例程实际包含了存储过程和存储函数，它们被统称为存储例程。 
+  其中存储过程主要完成在获取记录或插入记录或更新记录或删除记录，即完成select insert delete update等的工作。
+  而存储函数只完成查询的工作，可接受输入参数并返回一个结果。
+
+---------------------
+eg:
+mysql> DELIMITER // 
+mysql> CREATE PROCEDURE proc1(OUT s int) 
+   -> BEGIN
+   -> SELECT COUNT(*) INTO s FROM user; 
+   -> END
+   -> // 
+mysql> DELIMITER ;
+
+---------------------
+注： 
+（1）这里需要注意的是DELIMITER//和DELIMITER;两句，DELIMITER是分割符的意思，因为MySQL默认以”;”为分隔 符，
+	如果我们没有声明分割符，那么编译器会把存储过程当成SQL语句进行处理，则存储过程的编译过程会报错，
+	所以要事先用DELIMITER关键字申明当 前段分隔符，这样MySQL才会将”;”当做存储过程中的代码，不会执行这些代码，
+	用完了之后要把分隔符还原。 
+（2）存储过程根据需要可能会有输入、输出、输入输出参数，这里有一个输出参数s，类型是int型，如果有多个参数用”,”分割开。 
+（3）过程体的开始与结束使用BEGIN与END进行标识。 
+
+---------------------
+参数
+
+MySQL存储过程的参数用在存储过程的定义，共有三种参数类型,IN,OUT,INOUT,形式如： 
+CREATEPROCEDURE 存储过程名([[IN |OUT |INOUT ] 参数名 数据类形…]) 
+IN 输入参数:表示该参数的值必须在调用存储过程时指定，在存储过程中修改该参数的值不能被返回，为默认值 
+OUT 输出参数:该值可在存储过程内部被改变，并可返回 
+INOUT 输入输出参数:调用时指定，并且可被改变和返回
+
+---------------------
+[]内的为可省略
+in实例【out和inout略】
+eg：
+delimiter //
+create [definer=`root`@`localhost`] procedure `demo_in_parmeter`(IN `users_id` bigint)
+BEGIN
+	SELECT * FROM users WHERE id = users_id;
+	SET users_id=2;
+	SELECT * FROM users WHERE id = users_id;	
+
+END;
+//
+delimiter ;
+# 调用
+set @users_id = 1;
+call demo_in_parameter(@users_id);
+.....
+.....
+#查询@users_id的值
+select @users_id;
+------------------------------------------------------------
+局部变量
+变量定义
+
+局部变量声明一定要放在存储过程体的开始 
+DECLARE variable_name [,variable_name…] datatype [DEFAULT value]; 
+其中，datatype为MySQL的数据类型，如:int, float, date,varchar(length) 
+例如:
+
+1.  DECLARE l_int int unsigned default 4000000;  
+2.  DECLARE l_numeric number(8,2) DEFAULT 9.95;  
+3.  DECLARE l_date date DEFAULT '1999-12-31';  
+4.  DECLARE l_datetime datetime DEFAULT '1999-12-31 23:59:59';  
+5.  DECLARE l_varchar varchar(255) DEFAULT 'This will not be padded';   12345
+
+
+
+变量赋值
+	SET 变量名 = 表达式值 [,variable_name = expression …]
+
+
+用户变量
+在MySQL客户端使用用户变量
+
+1.  mysql > SELECT 'Hello World' into @x;  
+2.  mysql > SELECT @x;  
+3.  +-------------+  
+4.  |   @x        |  
+5.  +-------------+  
+6.  | Hello World |  
+7.  +-------------+  
+8.  mysql > SET @y='Goodbye Cruel World';  
+9.  mysql > SELECT @y;  
+10.+---------------------+  
+11.|     @y              |  
+12.+---------------------+  
+13.| Goodbye Cruel World |  
+14.+---------------------+  
+15. 
+16.mysql > SET @z=1+2+3;  
+17.mysql > SELECT @z;  
+18.+------+  
+19.| @z   |  
+20.+------+  
+21.|  6   |  
+22.+------+  
+
+
+
+在存储过程中使用用户变量
+
+1.  mysql > CREATE PROCEDURE GreetWorld( ) SELECT CONCAT(@greeting,' World');  
+2.  mysql > SET @greeting='Hello';  
+3.  mysql > CALL GreetWorld( );  
+4.  +----------------------------+  
+5.  | CONCAT(@greeting,' World') |  
+6.  +----------------------------+  
+7.  |  Hello World               |  
+8.  +----------------------------+  
+
+
+
+在存储过程间传递全局范围的用户变量
+
+1.  mysql> CREATE PROCEDURE p1()   SET @last_procedure='p1';  
+2.  mysql> CREATE PROCEDURE p2() SELECT CONCAT('Last procedure was ',@last_procedure);  
+3.  mysql> CALL p1( );  
+4.  mysql> CALL p2( );  
+5.  +-----------------------------------------------+  
+6.  | CONCAT('Last procedure was ',@last_proc       |  
+7.  +-----------------------------------------------+  
+8.  | Last procedure was p1                         |  
+9.  +-----------------------------------------------+  123456789
+
+注意: 
+①用户变量名一般以@开头 
+②滥用用户变量会导致程序难以理解及管理
+
+---------------------
+mysql存储过程循环修改每一条数据
+eg:
+DELIMITER $$
+USE `health`$$
+DROP PROCEDURE IF EXISTS `repairDiseaseData`$$
+CREATE DEFINER=`root`@`%` PROCEDURE `repairDiseaseData`()
+BEGIN
+      DECLARE Done INT DEFAULT 0;
+      DECLARE isSeeDoctor INT;
+	  DECLARE dId INT;
+      DECLARE seeDoctorMsg LONGTEXT;
+      DECLARE rs CURSOR FOR 
+	  SELECT	id,	is_see_doctor,	see_doctor_msg
+	  FROM	t_disease
+	  WHERE
+		(
+		 (is_see_doctor = 0	OR is_see_doctor IS NULL)
+			 AND see_doctor_msg IS NOT NULL AND see_doctor_msg != ''
+		)
+	  OR (is_see_doctor = 1	AND (see_doctor_msg IS NULL OR see_doctor_msg = ''));
+      DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET Done = 1;
+      OPEN rs;  
+	  FETCH NEXT FROM rs INTO dId, isSeeDoctor, seeDoctorMsg;     
+      REPEAT
+        IF NOT Done THEN
+            IF seeDoctorMsg is null or seeDoctorMsg = ''
+			THEN
+                UPDATE t_disease SET is_see_doctor = 0 WHERE id = dId;
+            ELSE               
+                UPDATE t_disease SET is_see_doctor = 1 WHERE id = dId;
+            END IF;
+        END IF;
+        FETCH NEXT FROM rs INTO dId, isSeeDoctor, seeDoctorMsg;   
+      UNTIL Done END REPEAT;
+	  CLOSE rs;
+END$$
+DELIMITER ;
+CALL repairDiseaseData();
+
+
+------------------------
+
+
+

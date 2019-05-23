@@ -11,21 +11,14 @@
   <packaging>war</packaging>
   
   <dependencies>
-  	<!-- spring -->
+  	
   	<dependency>
-  		<groupId>org.springframework</groupId>
-  		<artifactId>spring-webmvc</artifactId>
-  	</dependency>
-  	<!-- excle -->
-  	<dependency>
-  		<groupId>org.apache.poi</groupId>
-    	<artifactId>poi</artifactId>
-  	</dependency>
-  	<dependency>
-     	<groupId>org.apache.poi</groupId>
-    	<artifactId>poi-ooxml</artifactId> 		
+  		<groupId>com.hai</groupId>
+  		<artifactId>practice-common</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
   	
+ 	
   	<!-- JSP相关 -->
 	<dependency>
 		<groupId>jstl</groupId>

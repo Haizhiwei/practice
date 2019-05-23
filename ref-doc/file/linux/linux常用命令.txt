@@ -1,0 +1,63 @@
+﻿mkdir		创建目录 	 	 -v显示命令执行过程  多级 mkdir -p/
+rmdir   	删除空目录
+ls   		列出目录内容              ll   详细内容
+cd   		切换目录
+cp 		复制文件或目录
+mv 		移动文件或目录
+rm		删除文件或目录
+find		查找文件或目录
+
+vi/vim     	文档编辑
+pwd  		显示工作目录
+tar		文件备份压缩
+    -c压缩      建立一个压缩文件的参数指令(create 的意思)；
+    -x解压      解开一个压缩文件的参数指令！
+    -z/j格式    z-gzip格式  j-bzip2格式     tar -zxvpf /tmp/etc.tar.gz /etc 打包后，以gzip压缩
+    -v显示进度
+    -f文档名
+    -p:使用原文件的原来属性                 tar -zxvpf /tmp/etc.tar.gz /etc   解压并保留属性  
+
+cat 		显示文本文件内容
+more 		分页显示文件内容
+less		分页显示文件内容 操作更详细
+
+ps 		查看进程   eg: ps -ef|grep mysql
+kill		删除执行中的程序或工作
+ifconfig	显示网络设备
+ping		测试联通
+
+reboot		关机重启
+chmod		文件权限 r-4 w-2 x-1
+
+配置防火墙（ftp的密码是rootroot  ftpuser）
+vim /etc/sysconfig/iptables 	修改iptables文件，设置哪些端口打开
+service iptables restart
+查看防火墙状态
+/etc/init.d/iptables status	
+临时关闭防火墙
+/etc/init.d/iptables stop
+永久关闭防火墙	
+命令：chkconfig --level 2345 iptables off 
+或者 chkconfig iptables off 
+其中2345 代表”执行等级“ 等级0表示：表示关机        等级1表示：单用户模式 
+等级2表示：无网络连接的多用户命令行模式              等级3表示：有网络连接的多用户命令行模式 
+等级4表示：不可用 等级5表示：带图形界面的多用户模式  等级6表示：重新启动
+
+drwxr-xr-x
+第一位表示文件类型。d是目录文件，l是链接文件，-是普通文件，p是管道。
+rwx 、r-x 、r-x。
+第一个：  rwx 意思是可读可写可执行。
+第二个：  一般用户（用户组）：r-x 是可读可执行不可写。
+第三个：  其他用户，r-x 是可读可执行不可写。
+ 
+tar -cvf /tmp/etc.tar /etc <==仅打包，不压缩！
+
+tar -zcvf /tmp/etc.tar.gz /etc <==打包后，以 gzip 压缩
+
+tar -jcvf /tmp/etc.tar.bz2 /etc <==打包后，以 bzip2 压缩
+
+
+
+
+
+

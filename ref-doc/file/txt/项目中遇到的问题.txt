@@ -1,0 +1,76 @@
+tomcat部署项目要点：
+1）注意mysql表名和库名是否设置了区分大小写
+mysql报表找不到
+编辑mysql配置文件：vi /etc/my.cnf
+添加：lower_case_table_names=1 一句到文件中。
+
+2)需要经常查看日志（tail -[填行数] tomcat安装路径/logs/catalina.out）
+3)如果报java.lang.OutOfMemoryError（内存溢出异常）
+【可能是因为：启动参数内存值设定的过小造成的；修改tomcat目录下面：bin/catalina.sh文件。加上：
+JAVA_OPTS="-Xms256m -Xmx512m -Xss1024K -XX:PermSize=128m -XX:MaxPermSize=256m"】
+
+-server:一定要作为第一个参数，在多个CPU时性能佳
+-Xms：初始Heap大小，使用的最小内存,cpu性能高时此值应设的大一些
+-Xmx：java heap最大值，使用的最大内存
+上面两个值是分配JVM的最小和最大内存，取决于硬件物理内存的大小，建议均设为物理内存的一半。
+-XX:PermSize:设定内存的永久保存区域
+-XX:MaxPermSize:设定最大内存的永久保存区域
+-XX:MaxNewSize:
+-Xss 15120 这使得JBoss每增加一个线程（thread)就会立即消耗15M内存，而最佳值应该是128K,默认值好像是512k.
++XX:AggressiveHeap 会使得 Xms没有意义。这个参数让jvm忽略Xmx参数,疯狂地吃完一个G物理内存,再吃尽一个G的swap。
+-Xss：每个线程的Stack大小
+-verbose:gc 现实垃圾收集信息
+-Xloggc:gc.log 指定垃圾收集日志文件
+-Xmn：young generation的heap大小，一般设置为Xmx的3、4分之一
+-XX:+UseParNewGC ：缩短minor收集的时间
+-XX:+UseConcMarkSweepGC ：缩短major收集的时间
+提示：此选项在Heap Size 比较大而且Major收集时间较长的情况下使用更合适。
+
+PermGen space的全称是Permanent Generation space,是指内存的永久保存区域OutOfMemoryError: PermGen space从表面上看就是内存益出，
+解决方法也一定是加大内存。说说为什么会内存益出：这一部分用于存放Class和Meta的信息,Class在被 Load的时候被放入PermGen space区域，
+它和和存放Instance的Heap区域不同,GC(Garbage Collection)不会在主程序运行期对PermGen space进行清理，所以如果你的APP会LOAD很多CLASS的话,
+就很可能出现PermGen space错误。这种错误常见在web服务器对JSP进行pre compile的时候。
+改正方法：-Xms256m -Xmx256m -XX:MaxNewSize=256m -XX:MaxPermSize=256m 
+2、在tomcat中redeploy时出现outofmemory的错误. 可以有以下几个方面的原因: 
+1,使用了proxool,因为proxool内部包含了一个老版本的cglib. 
+2, log4j,最好不用,只用common-logging 
+3, 老版本的cglib,快点更新到最新版。
+4，更新到最新的hibernate3.2 3、
+
+
+这里以tomcat环境为例，其它WEB服务器如jboss,weblogic等是同一个道理。
+一、java.lang.OutOfMemoryError: PermGen space PermGen space的全称是Permanent Generation space,是指内存的永久保存区域, 这块内存主要是被JVM存放Class和Meta信息的,Class在被Loader时就会被放到PermGen space中, 它和存放类实例(Instance)的Heap区域不同,GC(Garbage Collection)不会在主程序运行期对 PermGen space进行清理，所以如果你的应用中有很多CLASS的话,就很可能出现PermGen space错误, 这种错误常见在web服务器对JSP进行pre compile的时候。如果你的WEB APP下都用了大量的第三方jar, 其大小超过了jvm默认的大小(4M)那么就会产生此错误信息了。
+解决方法： 手动设置MaxPermSize大小修改TOMCAT_HOME/bin/catalina.sh 在“echo "Using CATALINA_BASE: $CATALINA_BASE"”上面加入以下行： JAVA_OPTS="-server -XX:PermSize=64M -XX:MaxPermSize=128m 
+建议：将相同的第三方jar文件移置到tomcat/shared/lib目录下，这样可以达到减少jar 文档重复占用内存的目的。
+二、java.lang.OutOfMemoryError: Java heap space Heap size 设置 JVM堆的设置是指java程序运行过程中JVM可以调配使用的内存空间的设置.JVM在启动的时候会自动设置Heap size的值，其初始空间(即-Xms)是物理内存的1/64，最大空间(-Xmx)是物理内存的1/4。可以利用JVM提供的-Xmn -Xms -Xmx等选项可进行设置。Heap size 的大小是Young Generation 和Tenured Generaion 之和。提示：在JVM中如果98％的时间是用于GC且可用的Heap size 不足2％的时候将抛出此异常信息。提示：Heap Size 最大不要超过可用物理内存的80％，一般的要将-Xms和-Xmx选项设置为相同，而-Xmn为1/4的-Xmx值。 
+解决方法：手动设置Heap size 修改TOMCAT_HOME/bin/catalina.sh 在“echo "Using CATALINA_BASE: $CATALINA_BASE"”上面加入以下行： JAVA_OPTS="-server -Xms800m -Xmx800m -XX:MaxNewSize=256m" 
+三、实例，以下给出1G内存环境下java jvm 的参数设置参考： 
+JAVA_OPTS="-server -Xms800m -Xmx800m -XX:PermSize=64M -XX:MaxNewSize=256m -XX:MaxPermSize=128m -Djava.awt.headless=true "
+
+
+
+java虽然是自动回收内存，但是应用程序，尤其服务器程序最好根据业务情况指明内存分配限制。否则可能导致应用程序宕掉。
+
+举例说明含义：
+-Xms128m 
+表示JVM Heap(堆内存)最小尺寸128MB，初始分配
+-Xmx512m 
+表示JVM Heap(堆内存)最大允许的尺寸256MB，按需分配。
+
+说明：如果-Xmx不指定或者指定偏小，应用可能会导致java.lang.OutOfMemory错误，此错误来自JVM不是Throwable的，无法用try...catch捕捉。
+
+PermSize和MaxPermSize指明虚拟机为java永久生成对象（Permanate generation）如，class对象、方法对象这些可反射（reflective）对象分配内存限制，这些内存不包括在Heap（堆内存）区之中。
+
+-XX:PermSize=64MB 最小尺寸，初始分配
+-XX:MaxPermSize=256MB 最大允许分配尺寸，按需分配
+过小会导致：java.lang.OutOfMemoryError: PermGen space
+
+MaxPermSize缺省值和-server -client选项相关。
+-server选项下默认MaxPermSize为64m
+-client选项下默认MaxPermSize为32m
+
+
+经验：
+1、慎用最小限制选项Xms,PermSize已节约系统资源。
+
+--------------------- 

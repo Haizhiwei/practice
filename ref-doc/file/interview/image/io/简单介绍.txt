@@ -1,0 +1,3 @@
+Writer和Reader操作的目的就是操作字符和不是字节，和InputStream和OutputStream配合增加IO效果。
+通过InputStreamReader和OutputStreamReader可以进行字节和字符的转换，
+设计Writer和Reader的目的是国际化，使IO操作支持16位的Unicode。

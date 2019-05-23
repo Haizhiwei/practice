@@ -15,6 +15,10 @@
 	<mysql.version>5.1.36</mysql.version>
 	<druid.version>1.0.15</druid.version>
 	
+	<!-- 缓存  -->
+	<ehcache.version>2.6.11</ehcache.version>
+    <jedis.version>2.8.0</jedis.version>
+    
 	<slf4j.version>1.7.21</slf4j.version>
 	<jackson.version>2.9.8</jackson.version>
 	
@@ -28,10 +32,11 @@
 	<commons-lang3.version>3.3.2</commons-lang3.version>
 	<commons-io.version>2.4</commons-io.version>
 	<commons-net.version>3.3</commons-net.version>
+	<guava.version>20.0</guava.version>
+	
 	<pagehelper.version>3.4.2-fix</pagehelper.version>
 	<jsqlparser.version>0.9.1</jsqlparser.version>
 	<commons-fileupload.version>1.3.3</commons-fileupload.version>
-	<jedis.version>2.7.2</jedis.version>
 	<solrj.version>5.5.0</solrj.version>
 	
 	<poi.version>4.1.0</poi.version>
@@ -58,14 +63,17 @@
 				<artifactId>joda-time</artifactId>
 				<version>${joda-time.version}</version>
 			</dependency>
-			<!-- Apache工具组件 -->
+			<!-- Apache工具组件
+				(commons-lang3常用工具类,
+				如：StringUtils、RandomStringUtils、NumberUtils、ArrayUtils、DateUtils) -->
 			<dependency>
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-lang3</artifactId>
 				<version>${commons-lang3.version}</version>
 			</dependency>
+			<!-- Apache工具组件(IO操作) -->
 			<dependency>
-				<groupId>org.apache.commons</groupId>
+				<groupId>commons-io</groupId>
 				<artifactId>commons-io</artifactId>
 				<version>${commons-io.version}</version>
 			</dependency>
@@ -74,6 +82,12 @@
 				<artifactId>commons-net</artifactId>
 				<version>${commons-net.version}</version>
 			</dependency>
+			<!-- guava类似Apache Commons工具集 -->
+			<dependency>
+            	<groupId>com.google.guava</groupId>
+            	<artifactId>guava</artifactId>
+            	<version>${guava.version}</version>
+        	</dependency>
 			<!-- Jackson Json处理工具包 -->
 			<dependency>
 				<groupId>com.fasterxml.jackson.core</groupId>
@@ -105,16 +119,21 @@
 				<artifactId>mybatis</artifactId>
 				<version>${mybatis.version}</version>
 			</dependency>
+			  <!-- 整合Mybatis和Spring -->
 			<dependency>
 				<groupId>org.mybatis</groupId>
 				<artifactId>mybatis-spring</artifactId>
 				<version>${mybatis-spring.version}</version>
 			</dependency>
+			<!-- Mybatis的物理分页 -->
 			<dependency>
 				<groupId>com.github.miemiedev</groupId>
 				<artifactId>mybatis-paginator</artifactId>
 				<version>${mybatis.paginator.version}</version>
 			</dependency>
+			<!-- Mybatis的物理分页
+			https://github.com/pagehelper/Mybatis-PageHelper/blob/master/README_zh.md
+			 -->
 			<dependency>
 				<groupId>com.github.pagehelper</groupId>
 				<artifactId>pagehelper</artifactId>
@@ -132,7 +151,9 @@
 				<artifactId>druid</artifactId>
 				<version>${druid.version}</version>
 			</dependency>
-			<!-- Spring -->
+			<!-- Spring
+				https://blog.csdn.net/zlfprogram/article/details/75937935
+			 -->
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-context</artifactId>
@@ -143,6 +164,9 @@
 				<artifactId>spring-beans</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
+			<!-- webmvc主要是对mvc的支持，包括restful协议
+				 web则对远程调用和远程服务的支持。
+			 -->
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-webmvc</artifactId>
@@ -182,6 +206,19 @@
 				<artifactId>commons-fileupload</artifactId>
 				<version>${commons-fileupload.version}</version>
 			</dependency>
+			
+			<!-- j2Cache 1.3版本存在严重的序列化bug，因此使用开源中国上最新版的源码而不是jar
+			<dependency>
+		  		<groupId>net.oschina.j2cache</groupId>
+		  		<artifactId>j2cache-core</artifactId>
+		  		<version>1.3.0</version>
+			</dependency>-->
+		
+		 	<dependency>
+            	<groupId>net.sf.ehcache</groupId>
+            	<artifactId>ehcache-core</artifactId>
+            	<version>${ehcache.version}</version>
+        	</dependency>
 			<!-- Redis客户端 -->
 			<dependency>
 				<groupId>redis.clients</groupId>

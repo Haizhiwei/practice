@@ -1,0 +1,172 @@
+﻿docker命令：
+  docker images           查看所有本地镜像
+  docker rmi <images-id>  删除镜像
+  
+  docker ps               查看运行中的容器  -a  查看所有容器
+  docker start <容器id>   启动容器
+  docker rm    <容器id>   删除容器
+  docker stop  <容器id>   停止容器   
+
+
+本机环境是VirtualBox上安装的CentOS7。
+
+安装Docker
+
+1.查看内核版本 <Docker 要求 CentOS 系统的内核版本高于 3.10>
+   uname -r         本机<内核版本: 3.10.0-327.el7.x86_64>
+2.把yum包更新到最新
+  sudo yum update
+3.安装需要的软件包, yum-util 提供yum-config-manager功能，另外两个是devicemapper驱动依赖的
+  sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+4.设置yum源
+  sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+5.查看仓库中docker版本 
+  yum list docker-ce --showduplicates | sort -r
+6. 安装docker
+  sudo yum install docker-ce
+7.启动Docker,设置开机启动,停止Docker
+  sudo systemctl start docker
+  sudo systemctl enable docker
+  sudo systemctl stop docker   
+8.查看版本
+ docker version
+
+
+9.使用一下确认是否启动成功,使用search 查一下
+  docker search mysql
+10.查看日志状态成功日志
+  systemctl status docker.service 
+
+
+
+卸载Docker,对于旧版本没安装成功,卸掉。
+
+ 1.查询安装过的包
+   yum list installed | grep docker
+   本机安装过旧版本
+   docker.x86_64,docker-client.x86_64,docker-common.x86_64 
+  
+  2.删除安装的软件包
+    yum -y remove docker.x86_64                        
+     yum -y remove docker-client.x86_64                  
+     yum -y remove docker-common.x86_64
+--------------------- 
+
+
+操作  		命令			说明							
+检索	      docker  search 关键字     eg：docker  search redis 
+                                        我们经常去docker  hub上检索镜像的详细信息，如镜像的TAG。
+拉取	      docker pull 镜像名:tag    :tag是可选的，tag表示标签，多为软件的版本，默认是latest
+
+列表	      docker images		查看所有本地镜像
+
+删除	      docker rmi image-id	删除指定的本地镜像
+
+https://hub.docker.com/
+
+
+2）、容器操作
+
+软件镜像（QQ安装程序）----运行镜像----产生一个容器（正在运行的软件，运行的QQ）；
+
+步骤：
+
+    1、搜索镜像
+    [root@localhost ~]# docker search tomcat
+    2、拉取镜像
+    [root@localhost ~]# docker pull tomcat
+    3、根据镜像启动容器 docker run --name mytomcat -d tomcat:latest    （-d 后台运行）
+    4、docker ps  查看运行中的容器
+    5、停止运行中的容器 docker stop  容器的id
+    6、查看所有的容器 docker ps -a
+    7、启动容器
+    docker start 容器id
+    8、删除一个容器
+     docker rm 容器id
+    9、启动一个做了端口映射的tomcat
+    [root@localhost ~]# docker run -d -p 8888:8080 tomcat    （-p 端口映射）
+    -d：后台运行
+    -p: 将主机的端口映射到容器的一个端口    主机端口:容器内部的端口
+    
+    10、为了演示简单关闭了linux的防火墙
+    service firewalld status ；查看防火墙状态
+    service firewalld stop：关闭防火墙
+    11、查看容器的日志
+    docker logs container-name/container-id （容器名或者容器id）
+    
+    更多命令参看
+    https://docs.docker.com/engine/reference/commandline/docker/
+    可以参考每一个镜像的文档
+    
+
+
+
+3）、安装MySQL示例
+
+    docker pull mysql
+
+
+
+错误的启动
+    [root@localhost ~]# docker run --name mysql01 -d mysql
+    42f09819908bb72dd99ae19e792e0a5d03c48638421fa64cce5f8ba0f40f5846
+    
+    mysql退出了
+    [root@localhost ~]# docker ps -a
+    CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                           PORTS               NAMES
+    42f09819908b        mysql               "docker-entrypoint.sh"   34 seconds ago      Exited (1) 33 seconds ago                            mysql01
+    538bde63e500        tomcat              "catalina.sh run"        About an hour ago   Exited (143) About an hour ago                       compassionate_
+    goldstine
+    c4f1ac60b3fc        tomcat              "catalina.sh run"        About an hour ago   Exited (143) About an hour ago                       lonely_fermi
+    81ec743a5271        tomcat              "catalina.sh run"        About an hour ago   Exited (143) About an hour ago                       sick_ramanujan
+    
+    
+    //错误日志
+    [root@localhost ~]# docker logs 42f09819908b
+    error: database is uninitialized and password option is not specified 
+      You need to specify one of MYSQL_ROOT_PASSWORD, MYSQL_ALLOW_EMPTY_PASSWORD and MYSQL_RANDOM_ROOT_PASSWORD；这个三个参数必须指定一个
+
+正确的启动
+
+    [root@localhost ~]# docker run --name mysql01 -e MYSQL_ROOT_PASSWORD=123456 -d mysql 
+    b874c56bec49fb43024b3805ab51e9097da779f2f572c22c695305dedd684c5f
+    [root@localhost ~]# docker ps
+    CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
+    b874c56bec49        mysql               "docker-entrypoint.sh"   4 seconds ago       Up 3 seconds        3306/tcp            mysql01
+
+做了端口映射
+
+    [root@localhost ~]# docker run -p 3306:3306 --name mysql02 -e MYSQL_ROOT_PASSWORD=123456 -d mysql
+    ad10e4bc5c6a0f61cbad43898de71d366117d120e39db651844c0e73863b9434
+    [root@localhost ~]# docker ps
+    CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
+    ad10e4bc5c6a        mysql               "docker-entrypoint.sh"   4 seconds ago       Up 2 seconds        0.0.0.0:3306->3306/tcp   mysql02
+
+
+
+几个其他的高级操作
+
+    docker run --name mysql03 -v /conf/mysql:/etc/mysql/conf.d -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:tag
+    把主机的/conf/mysql文件夹挂载到 mysqldocker容器的/etc/mysql/conf.d文件夹里面
+    改mysql的配置文件就只需要把mysql配置文件放在自定义的文件夹下（/conf/mysql）
+    
+    docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:tag --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    指定mysql的一些配置参数
+ 
+ 
+与容器进行交互
+docker exec -t -i myMysql /bin/bash
+执行之后会获得容器内的/bin/bash终端，
+root@35e1fab30962:/#，其中35e1fab30962是容器ID
+此时就可以在这里执行mysql命令了
+Demo：
+root@35e1fab30962:/# mysql -uroot -p 
+#输入之前设置的密码，此处为123456，输入正确后进入到mysql中
+mysql> use mysql;
+mysql> select * from user\G;
+
+
+
+
+
+

@@ -1,0 +1,39 @@
+servlet和filter的区别
+从四个方面来区分：
+
+概念
+
+　　servlet是一种运行在服务器端的Java应用程序，独立于平台和协议，可以动态的生成web页面，它工作于客户端请求和服务器的中间层
+
+　　filter是一个可以复用的代码片段，可以用来转换请求，响应以及头信息，filter不能产生请求和响应，他只能在请求到达servlet之前对请求进行修改，或者在请求返回客户端之前对响应进行处理
+
+生命周期
+
+　　servlet是在系统启动或者请求到达servlet时，通过init（）方法进行初始化，一旦被装入了web服务器，一般不会从Web服务器删除，直到服务器关闭才会调用　　destroy（）方法进行销毁。每次请求，Request都会被初始化，响应请求后，请求被销毁。但是servlet不会随着请求的销毁而销毁
+
+　　如果某个Servlet配置了 <load-on-startup >1 </load-on-startup >，该Servlet也是在Tomcat（Servlet容器）启动时初始化。
+　　如果Servlet没有配置<load-on-startup >1 </load-on-startup >，该Servlet不会在Tomcat启动时初始化，而是在请求到来时初始化。
+
+　　filter
+
+　　　　是在系统启动的时候通过init（）初始化的，每次请求都只会调用dofiter方法进行处理，服务器停止的时候调用destroy()进行销毁
+
+注意：服务器关闭时，servlet和filter依次销毁
+
+职责
+
+　　servlet
+
+　　　　可以动态创建基于客户请求的页面；可以读取客户端发来的隐藏数据和显示数据；可以和其他的服务器资源进行通讯；通过状态代码和响应头向客户端返回数据。
+
+　　filter
+
+　　　　主要是对请求到达servlet之前对请求和请求头信息进行前处理，和对数据返回客户端之前进行后处理
+
+区别
+
+　　servlet的流程比较短，url来了之后就对其进行处理，处理完就返回数据或者转向另一个页面
+
+　　filter的流程比较长，在一个filter处理之后还可以转向另一个filter进行处理，然后再交给servlet，但是servlet处理之后不能向下传递了。
+
+　　filter可用来进行字符编码的过滤，检测用户是否登陆的过滤，禁止页面缓存等

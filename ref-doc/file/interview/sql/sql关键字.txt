@@ -1,0 +1,119 @@
+﻿sql 中的关键字
+注释里的``表示缺省的表名，列名
+create table 
+	insert into `` values(``,``,``)
+
+	group by `` having 条件   			去重统计
+	select `` from  `` order by   ``		desc (*desc降序 默认升序)
+	distinct 														用于去重（独特的）select distinct `` from  `tbname` 
+  
+	drop table 
+	where `` in()  						在in()范围以内
+	between expr1  and expr2  			在expr1到expr2之间
+	like                       			字符串匹配，支持通配符
+	is null
+	not in()
+	not exists()
+    delete from `tbname` where 		 	清空表数据 可以加条件
+	truncate table ``              		清空表比delete快
+
+-----------------------------------------------	
+约束：
+ not null   auto_increment            非空   自增长
+ primary  ky(``)                      主键约束
+ key [索引名]([列名])                 创建索引  eg: KEY `parent_id` (`parent_id`,`status`) USING BTREE, KEY `sort_order` (`sort_order`)
+
+-----------------------------------------------------------
+数据类型：
+	int() 4个字节  bigint() 8个字节
+	char()
+	varchar()
+	datetime 
+	decimal(M,D)	DECIMAL和NUMERIC类型在MySQL中视为相同的类型。它们用于保存必须为确切精度的值。
+# MySql中的浮点类型有float，double和real。他们定义方式为：FLOAT(M,D) 、 REAL(M,D) 、 DOUBLE PRECISION(M,D)。
+# REAL就是DOUBLE ，如果SQL服务器模式包括REAL_AS_FLOAT选项，REAL是FLOAT的同义词而不是DOUBLE的同义词。
+	float()
+	double precision()
+#	字符串类型指CHAR、VARCHAR、BINARY、VARBINARY、BLOB、TEXT、ENUM和SET。
+         
+	date               '0000-00-00'
+	time               '00:00:00'
+	datetime					 '0000-00-00 00:00:00'   支持的范围为'1000-01-01 00:00:00'到'9999-12-31 23:59:59'。
+	timestamp          '0000-00-00 00:00:00'  TIMESTAMP类型同样包含日期和时间，范围从'1970-01-01 00:00:01' UTC 到'2038-01-19 03:14:07' UTC。
+          
+-------------------------------------------------
+mysql常用函数： function
+ concat(),concat_ws(),group_concat()      字符串连接
+ count() 				  统计
+ sum ()  				  求和
+ AVG()   				  平均数
+
+
+
+
+具体解释：
+字符串连接操作
+concat(str,str1,....)
+注意：
+ MySQL的concat函数在连接字符串的时候，只要其中一个是NULL,那么将返回NULL
+ 如果所有参数均为非二进制字符串，则结果为非二进制字符串。 
+ 如果自变量中含有任一二进制字符串，则结果为一个二进制字符串。
+ 一个数字参数被转化为与之相等的二进制字符串格式；
+ 若要避免这种情况，可使用显式类型 cast, 例如：SELECT CONCAT(CAST(int_col AS CHAR), char_col)
+ 
+concat_ws(',',str,str1,....)
+注意：
+第一个参数是其它参数的分隔符。分隔符的位置放在要连接的两个字符串之间。分隔符可以是一个字符串，也可以是其它参数。
+如果分隔符为 NULL，则结果为 NULL。函数会忽略任何分隔符参数后的 NULL 值。
+
+group_concat([DISTINCT] 要连接的字段 [Order BY ASC/DESC 排序字段] [Separator '分隔符'])
+注意：
+默认用分隔符是 , 
+
+repeat()函数
+用来复制字符串,如下'ab'表示要复制的字符串，2表示复制的份数
+mysql> select repeat('ab',2);
+
+
+mysql向表中某字段后追加一段字符串:
+update table_name set field=CONCAT(field,'',str)
+
+mysql 向表中某字段前加字符串
+update table_name set field=CONCAT('str',field)
+
+
+---------------------
+存储函数关键字：
+delimiter // 				#设置分界符为//
+create procedure [](....)   #声明存储过程
+begin
+declare var int [default ...]    #声明变量,
+.....
+end
+delimiter ;
+
+set @...= ...              #变量
+call [...](@...)           #
+
+	
+------------------------	
+other:
+now() 当前时间
+# engine 引擎  AUTO_INCREMENT自增长从98开始	 charset 设置字符集  commemt 注释（评论，意见）
+ ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=utf8 COMMENT='内容分类';
+SET FOREIGN_KEY_CHECKS=0; #取消外键约束 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

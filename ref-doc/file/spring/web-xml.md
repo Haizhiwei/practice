@@ -154,7 +154,7 @@ context-param的值 = ServletContext.getInitParameter("context-param的键");
 </listener>
 <context-param>
 	<param-name>contextConfigLocation</param-name>
-	<param-value>classpath:applicationContext.xml</param-value>
+	<param-value>classpath:spring/spring-*.xml</param-value>
 </context-param>
 <!--自定义context-param,且自定义listener来获取这些信息 -->
 
