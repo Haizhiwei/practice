@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" ><?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- 
+sql映射文件有例如以下几个顶级元素：（按顺序）
+
+cache配置给定命名空间的缓存。
+
+cache-ref从其它命名空间引用缓存配置。
+
+resultMap最复杂，也是最有力量的元素。用来描写叙述怎样从数据库结果集中来载入你的对象。
+
+parameterMap已经被废弃了！老式风格的參数映射。
+
+内联參数是首选，这个元素可能在将来被移除。
+
+sql能够重用的SQL块，也能够被其它语句引用。
+
+insert映射插入语句。
+
+update映射更新语句。
+
+delete映射删除语句。
+
+select映射查询语句。
+
+ -->
+<mapper namespace="com.taotao.mapper.TbContentCategoryMapper" >
+  <resultMap id="BaseResultMap" type="com.taotao.pojo.TbContentCategory" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="parent_id" property="parentId" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="sort_order" property="sortOrder" jdbcType="INTEGER" />
+    <result column="is_parent" property="isParent" jdbcType="BIT" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="updated" property="updated" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <!-- 能重用的代码块能被其它语句引用  (与<includ  refid=""/>对应-->
+  <sql id="Base_Column_List" >
+    id, parent_id, name, status, sort_order, is_parent, created, updated
+  </sql>
+  <!-- select演示
+ 详解：
+<select
+id=”selectPerson” 在命名空间中唯一的标识符，能够被用来引用这条语句。（即对应接口的方法名）
+
+parameterType=”int” 将会传入这条语句的參数类的全然限定名或别名。
+<select id="selectByExample" resultMap="BaseResultMap" parameterType="com.taotao.pojo.TbContentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_content
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+</select>
+parameterMap=”deprecated” （已废弃）
+
+resultType=”hashmap” 从这条语句中返回的期望类型的类的全然限定名或别名。注意集合情形。那应该是集合能够包括的类型，而不能是集合本身。
+eg：
+<select id="get" resultType="com.hai.entity.UserFronts" >
+   SELECT 
+	  <include refid="userFrontsColumns"/>
+   FROM cms_soft_user a
+ 	<include refid="userFrontsJoins"/>
+		WHERE a.id = #{id}
+</select>
+使用resultType或resultMap，但不能同一时候使用。
+resultMap=”personResultMap” 命名引用外部的resultMap。返回map是MyBatis最具力量的特性，对其有一个非常好的理解的话，很多复杂映射的情形就能被攻克了。
+使用 resultMap 或 resultType，但不能同一时候使用。
+
+flushCache=”false” 将其设置为true。不论语句什么时候被调用，都会导致缓存被清空。默认值： false。
+useCache=”true” 将其设置为 true。将会导致本条语句的结果被缓存。默认值： true。
+
+timeout=”10000” 这个设置驱动程序等待数据库返回请求结果，并抛出异常时间的最大等待值。默认不设置（驱动自行处理）。
+
+fetchSize=”256” 这是暗示驱动程序每次批量返回的结果行数。默认不设置（驱动自行处理）。
+statementType=”PREPARED” STATEMENT,PREPARED 或 CALLABLE 的一种。这会让 MyBatis使用选择使用 Statement， PreparedStatement 或 CallableStatement。
+默认值： PREPARED。
+
+resultSetType=”FORWARD_ONLY” FORWARD_ONLY|SCROLL_SENSITIVE|SCROLL_INSENSITIVE中的一种。默认是不设置（驱动自行处理）。
+ -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_content_category
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <!-- delete演示 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tb_content_category
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  
+  
+  <!-- insert演示 -->
+  <insert id="insertSelective" parameterType="com.taotao.pojo.TbContentCategory" >
+    <selectKey keyProperty="id" resultType="long" order="AFTER">
+  		SELECT LAST_INSERT_ID()
+  	</selectKey>
+    insert into tb_content_category
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="sortOrder != null" >
+        sort_order,
+      </if>
+      <if test="isParent != null" >
+        is_parent,
+      </if>
+      <if test="created != null" >
+        created,
+      </if>
+      <if test="updated != null" >
+        updated,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="sortOrder != null" >
+        #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="isParent != null" >
+        #{isParent,jdbcType=BIT},
+      </if>
+      <if test="created != null" >
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null" >
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <!-- update演示 -->
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tb_content_category
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.parentId != null" >
+        parent_id = #{record.parentId,jdbcType=BIGINT},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.sortOrder != null" >
+        sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="record.isParent != null" >
+        is_parent = #{record.isParent,jdbcType=BIT},
+      </if>
+      <if test="record.created != null" >
+        created = #{record.created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updated != null" >
+        updated = #{record.updated,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  
+</mapper>

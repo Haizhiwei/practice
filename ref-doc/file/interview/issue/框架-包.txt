@@ -1,0 +1,2 @@
+项目中的包spring-jdbc、mysql-connector-java有何区别，功能有没有重叠
+（都是连接数据库，为什么导了spring-jdbc还导mysql-connector-java）

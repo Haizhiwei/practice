@@ -14,6 +14,8 @@ public class PhotoGrading {
 		private static int grade[][] = new int[100][10];
 		
 		public static void main(String[] args) {
+			System.out.println(grade.length);
+			
 			makeGrade();
 			outPutGrade();
 			
@@ -117,13 +119,12 @@ public class PhotoGrading {
 		 * @return 第一个最小，最后一个最大
 		 */
 		private static int[] sort(int[] jp){
-			for (int j = 0; j < jp.length; j++) {
-				for (int l = j+1; l < jp.length; l++) {
-					int temp = jp[l];
-					
-					if (jp[j]>jp[l]) {
-						jp[l] = jp[j];
-						jp[j] = temp;
+			for (int j = 0; j < jp.length-1; j++) {
+				for (int l = 0; l < jp.length-j-1; l++) {
+					if (jp[l]>jp[l+1]) {
+						int temp = jp[l];
+						jp[l] = jp[l+1];
+						jp[l+1] = temp;
 					}
 				}
 			}

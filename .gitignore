@@ -7,6 +7,7 @@ target
 # idea
 .idea
 *.iml
+draft.txt
 
 # Compiled class file
 *.class

@@ -79,8 +79,8 @@
   		<artifactId>spring-webmvc</artifactId>
   	</dependency>
   </dependencies>
-  
-  <!-- Groups是一个可靠的群组通讯Java工具包。 -->
+ </project>
+ 	<!-- Groups是一个可靠的群组通讯Java工具包。 -->
   	<!--  <dependency>
         <groupId>org.jgroups</groupId>
         <artifactId>jgroups</artifactId>
@@ -110,5 +110,3 @@
 		<groupId>redis.clients</groupId>
 		<artifactId>jedis</artifactId>
 	</dependency> -->
-  
- </project>

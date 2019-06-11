@@ -1,344 +1,417 @@
-1.java֧�ֵ�������������Щ��ʲô���Զ���װ��
-  �����������ͣ�byte short int long folat double char boolean
-  �������ͣ�string
-  �Զ���װ����java�������ڻ����������������Ӧ�Ķ����װ����֮����ת����eg��int-->integer װ�� ��֮Ϊ����
-2.�ӿںͳ����������
-  ���δʲ�ͬ  interface   abstract
-  �ӿڶ�ʵ�֣������൥�̳�
-  �ӿ�ֻ���ǳ��󷽷���������������г��󷽷��ͷǳ��󷽷���
-  ����������ڲ��ṩ�ӿڷ���ʵ�ֵ������ʵ�ֽӿڡ�	
-  Java�ӿ��������ı���Ĭ�϶���final�ġ���������԰�����final�ı�����
-  Java�ӿ��еĳ�Ա����Ĭ����public�ġ�������ĳ�Ա����������private��protected������public��
-  ��ע��
- ���ڽӿ�����default���εķ��������к����壬��ǿ��Ҫ��ʵ�֣�
-  �ӿ��Ǿ��Գ���ģ������Ա�ʵ������������Ҳ�����Ա�ʵ������
-  ����Ʋ�����˵�������Ƕ���ĳ�����һ��ģ����ƣ��ӿ�����Ϊ�ĳ�����һ����Ϊ�Ĺ淶��
-3.�����Ľ������̵߳ļ��ֿ���״̬�������߳�״̬ת��ͼ��
-  1���½�״̬(New)���´�����һ���̶߳���
-  2������״̬(Runnable)���̶߳��󴴽��������̵߳����˸ö����start()��������״̬���߳�λ�ڡ��������̳߳ء��У���ÿ����У�ֻ�ȴ���ȡCPU��ʹ��Ȩ�����ھ���״̬�Ľ��̳�CPU֮�⣬����������������Դ����ȫ����á�
-  3������״̬(Running)������״̬���̻߳�ȡ��CPU��ִ�г�����롣
-  4������״̬(Blocked)������״̬���߳���Ϊĳ��ԭ�����CPUʹ��Ȩ����ʱֹͣ���С�ֱ���߳̽������״̬�����л���       ת������״̬��
-  ��������������֣�
-  (1)���ȴ����������е��߳�ִ��wait()���������̻߳��ͷ�ռ�õ�������Դ��JVM��Ѹ��̷߳��롰�ȴ��ء��С��������        ״̬���ǲ����Զ����ѵģ��������������̵߳���notify()��notifyAll()�������ܱ����ѣ�
-  (2)��ͬ�����������е��߳��ڻ�ȡ�����ͬ����ʱ������ͬ����������߳�ռ�ã���JVM��Ѹ��̷߳��롰���ء��С�
+1.java支持的数据类型有哪些，什么是自动拆装箱
+  基本数据类型：byte short int long folat double char boolean
+  引用类型：string
+  自动拆装箱是java编译器在基本数据类型与其对应的对象包装类型之间做转化。eg：int-->integer 装箱 反之为拆箱
+2.接口和抽象类的区别
+  修饰词不同  interface   abstract
+  接口多实现，抽象类单继承
+  接口只能是抽象方法，而抽象类可以有抽象方法和非抽象方法。
+  抽象类可以在不提供接口方法实现的情况下实现接口。	
+  Java接口中声明的变量默认都是final的。抽象类可以包含非final的变量。
+  Java接口中的成员函数默认是public的。抽象类的成员函数可以是private，protected或者是public。
+  备注：
+ （在接口中用default修饰的方法可以有函数体，不强制要求实现）
+  接口是绝对抽象的，不可以被实例化，抽象类也不可以被实例化。
+  从设计层面来说，抽象是对类的抽象，是一种模板设计，接口是行为的抽象，是一种行为的规范。
+3.概括的解释下线程的几种可用状态并画出线程状态转换图。
+  1、新建状态(New)：新创建了一个线程对象。
+  2、就绪状态(Runnable)：线程对象创建后，其他线程调用了该对象的start()方法。该状态的线程位于“可运行线程池”中，变得可运行，
+	 只等待获取CPU的使用权。即在就绪状态的进程除CPU之外，其它的运行所需资源都已全部获得。
+  3、运行状态(Running)：就绪状态的线程获取了CPU，执行程序代码。
+  4、阻塞状态(Blocked)：阻塞状态是线程因为某种原因放弃CPU使用权，暂时停止运行。直到线程进入就绪状态，才有机会
+	 转到运行状态。
+  阻塞的情况分三种：
+  (1)、等待阻塞：运行的线程执行wait()方法，该线程会释放占用的所有资源，JVM会把该线程放入“等待池”中。进入这个
+	   状态后，是不能自动唤醒的，必须依靠其他线程调用notify()或notifyAll()方法才能被唤醒，
+  (2)、同步阻塞：运行的线程在获取对象的同步锁时，若该同步锁被别的线程占用，则JVM会把该线程放入“锁池”中。
        (synchronized)
-  (3)���������������е��߳�ִ��sleep()��join()���������߷�����I/O����ʱ��JVM��Ѹ��߳���Ϊ����״̬����sleep()         ״̬��ʱ��join()�ȴ��߳���ֹ���߳�ʱ������I/O�������ʱ���߳�����ת�����״̬��
-   5������״̬(Dead)���߳�ִ�����˻������쳣�˳���run()���������߳̽����������ڡ�
-   ��ע��
-   1���̵߳�ʵ�������ַ�ʽ��һ�Ǽ̳�Thread�࣬����ʵ��Runnable�ӿڣ�������������������new�����������߳̾�   �����˳�ʼ״̬�� 
+  (3)、其他阻塞：运行的线程执行sleep()或join()方法，或者发出了I/O请求时，JVM会把该线程置为阻塞状态。当sleep()         状态超时、join()等待线程终止或者超时、或者I/O处理完毕时，线程重新转入就绪状态。
+   5、死亡状态(Dead)：线程执行完了或者因异常退出了run()方法，该线程结束生命周期。
+   备注：
+   1、线程的实现有两种方式，一是继承Thread类，二是实现Runnable接口，但不管怎样，当我们new了这个对象后，线程就   进入了初始状态； 
    https://blog.csdn.net/sinat_36042530/article/details/52565296
 
-4. servlet��filter������
-   filter����Ϊ��servlet��һ�֡����֡�����Ҫ�����ڶ��û������Ԥ������
-   filter���ܲ����������Ӧ�������ô�����������ǰ������Ӧ����Ӧǰ��
-   ����������
-5. servlet��������ķ�ʽ����������
-   1.��ȷƥ�� <url-pattern>/adc.html<url-pattern>
-   2.ͨ���ƥ�� <url-pattern>/*<url-pattern>
-   3.��׺ƥ�� <url-pattern>*.do<url-pattern>
-   �������ڣ�
-   ʵ����������servlet������������servlet����
-   ��ʼ��  ����init()������ֻ����һ�Σ�
-   ��Ӧ�ͻ�����׶Σ�����service()���������ͻ��˵����󣩣������� 
-   ����destroy()������ֹ����������Servlet ���� JVM �����������������������յġ���
-6. Comparable��Comparator�ӿ��Ǹ�ʲô�ģ��г����ǵ�����
-   Comparable & Comparator ��������ʵ�ּ�����Ԫ�صıȽϡ�����ġ�
-   ֻ�� Comparable�����ھۣ� ���ڼ����ڲ�����ķ���ʵ�ֵ�����Comparator����ά����
-   ���ڼ����ⲿʵ�ֵ�����
-   ��
+4. servlet和filter的区别
+   filter可认为是servlet的一种“变种”，主要是用于对用户请求的预处理；
+   filter不能产生请求和响应，但可用处理请求（请求前）和响应（响应前）
+   ·····
+5. servlet处理请求的方式、生命周期
+   1.精确匹配 <url-pattern>/adc.html<url-pattern>
+   2.通配符匹配 <url-pattern>/*<url-pattern>
+   3.后缀匹配 <url-pattern>*.do<url-pattern>
+   生命周期：
+   实例化（调用servlet构造器，创建servlet对象）
+   初始化  调用init()方法（只调用一次）
+   响应客户请求阶段（调用service()方法处理客户端的请求）（就绪） 
+   调用destroy()方法终止（结束）（Servlet 是由 JVM 的垃圾回收器进行垃圾回收的。）
+6. Comparable和Comparator接口是干什么的？列出它们的区别
+   Comparable & Comparator 都是用来实现集合中元素的比较、排序的。
+   只是 Comparable（高内聚） 是在集合内部定义的方法实现的排序，Comparator（易维护）
+   是在集合外部实现的排序，
+   （
 
-Comparable & Comparator ��������ʵ�ּ�����Ԫ�صıȽϡ�����ģ�
-     ֻ�� Comparable ���ڼ����ڲ�����ķ���ʵ�ֵ�����
-     Comparator ���ڼ����ⲿʵ�ֵ��������ԣ�����ʵ�����򣬾���Ҫ�ڼ����ⶨ�� Comparator �ӿڵķ���
-     ���ڼ�����ʵ�� Comparable �ӿڵķ����� 
-     Comparatorλ�ڰ�java.util�£���Comparableλ�ڰ� java.lang�� Comparable ��һ�����������Ѿ�֧���ԱȽ�����     Ҫʵ�ֵĽӿڣ��� String��Integer �Լ��Ϳ�����ɱȽϴ�С�������Ѿ�ʵ����Comparable�ӿڣ�
-     �Զ������Ҫ�ڼ���list�����к��ܹ����򣬿���ʵ��Comparable�ӿڣ�����Collections���sort��������ʱ��
-     �����ָ��Comparator����ô������Ȼ˳������ �������Ȼ˳�����ʵ��Comparable�ӿ��趨������ʽ��
-    ��Comparator ��һ��ר�õıȽ��������������֧���ԱȽϻ����ԱȽϺ��������������Ҫ��ʱ��
-    �����дһ���Ƚ����������������֮���С�ıȽϡ� 
-    ����˵һ����������ɱȽϣ�һ�����ⲿ����ʵ�ֱȽϵĲ����ѡ� 
-    �� Comparator �ǲ���ģʽ��strategy design pattern�������ǲ��ı��������������һ�����Զ���strategy object    �����ı�������Ϊ��     ���磺������������þ���ֵ��С������Integer �ǲ�����Ҫ��ģ�
-    �㲻��Ҫȥ�޸� Integer �ࣨʵ������Ҳ������ô����ȥ�ı�����������Ϊ��
-    ֻҪʹ��һ��ʵ���� Comparator �ӿڵĶ�����ʵ�ֿ���������������ˡ���
+Comparable & Comparator 都是用来实现集合中元素的比较、排序的，
+     只是 Comparable 是在集合内部定义的方法实现的排序，
+     Comparator 是在集合外部实现的排序，所以，如想实现排序，就需要在集合外定义 Comparator 接口的方法
+     或在集合内实现 Comparable 接口的方法。 
+     Comparator位于包java.util下，而Comparable位于包 java.lang下 Comparable 是一个对象本身就已经支持自比较所需
+     要实现的接口（如 String、Integer 自己就可以完成比较大小操作，已经实现了Comparable接口）
+     自定义的类要在加入list容器中后能够排序，可以实现Comparable接口，在用Collections类的sort方法排序时，
+     如果不指定Comparator，那么就以自然顺序排序， 这里的自然顺序就是实现Comparable接口设定的排序方式。
+    而Comparator 是一个专用的比较器，当这个对象不支持自比较或者自比较函数不能满足你的要求时，
+    你可以写一个比较器来完成两个对象之间大小的比较。 
+    可以说一个是自已完成比较，一个是外部程序实现比较的差别而已。 
+    用 Comparator 是策略模式（strategy design pattern），就是不改变对象自身，而用一个策略对象（strategy object）来改变它的行为。
+	比如：你想对整数采用绝对值大小来排序，Integer 是不符合要求的，
+    你不需要去修改 Integer 类（实际上你也不能这么做）去改变它的排序行为，
+    只要使用一个实现了 Comparator 接口的对象来实现控制它的排序就行了。）
 
-7. ͬ��������ͬ�������������ʲô��������������ʵ�ָ�ϸ���ȵĿ���   
+7. 同步方法和同步代码块区别是什么？有无其它方法实现更细粒度的控制   
 
-   ͬ������(��������):
+   同步方法(粗粒度锁):
  
-       1. ����һ�㷽��: public synchronized void method (){...}, ��ȡ���ǵ�ǰ���ö��� this �ϵ���
+       1. 修饰一般方法: public synchronized void method (){...}, 获取的是当前调用对象 this 上的锁
 
-       2. ���ξ�̬����: public static synchronized void method (){...}, ��ȡ��ǰ����ֽ�������ϵ���
+       2. 修饰静态方法: public static synchronized void method (){...}, 获取当前类的字节码对象上的锁
 
-   ͬ�������(ϸ������):
+   同步代码块(细粒度锁):
  
-        synchronized( obj ) {...}, ͬ����������ָ����ȡ�ĸ������ϵ���, obj ����
+        synchronized( obj ) {...}, 同步代码块可以指定获取哪个对象上的锁, obj 任意
 
-      ��https://www.cnblogs.com/shuilangyizu/p/10286747.html��
-
-
-    wait()��sleep()������
-    wait����������Object������ģ��ͷ�������ǰ�߳������ͷŻ�����������Ҫnotify����notifyAll���ѣ�
-    ���������ڣ�����notify()����ǰ����������
-    ��1. wait�����ȴ�ͨ���̻߳��Ѻ��ټ���ִ�б��߳�,û���ѵ�ʱ����sleeping״̬,���ᱻ�ֲ�CPU��
-         Ҳ���������ľ�����.
-      2. wait��long millis���ȴ�ͨ���̻߳��ѻ������ȴ�millis������Զ�����,Ȼ���Ծ������������
-      ������ɹ��ͽ���blocking״̬.��
-
-    sleep()��Thread������ģ���Ҫ���õ�ǰ�߳�ֹͣ��һ��ʱ�䣩���ó�cpu���������̣߳��������ͷŶ�������Դ�Լ����״̬��
-start �� run �������ͣ���  
-1�� start��
-������start�����������̣߳�����ʵ���˶��߳����У���ʱ����ȴ�run���������ִ����϶�ֱ�Ӽ���ִ������Ĵ��롣ͨ������Thread���start()����������һ���̣߳���ʱ���̴߳��ھ����������У�״̬����û�����У�һ���õ�cpuʱ��Ƭ���Ϳ�ʼִ��run()���������﷽�� run()��Ϊ�߳��壬��������Ҫִ�е�����̵߳����ݣ�Run�������н��������߳��漴��ֹ��
-2�� run��
-����run()����ֻ�����һ����ͨ�������ѣ����ֱ�ӵ���Run��������������Ȼֻ�����߳���һ���̣߳������ִ��·������ֻ��һ��������Ҫ˳��ִ�У�����Ҫ�ȴ�run������ִ����Ϻ�ſɼ���ִ������Ĵ��룬������û�дﵽд�̵߳�Ŀ�ġ��ܽ᣺����start�������������̣߳���run����ֻ��thread��һ����ͨ�������ã����������߳���ִ�С�����������Ӧ�ö��Ƚ���Ϥ������Ҫ���д����Ĵ������run()�����У�start()���������߳̽��Զ����� run()������������jvm���ڴ���ƹ涨�ġ�����run()����������public����Ȩ�ޣ�����ֵ����Ϊvoid��
+      （https://www.cnblogs.com/shuilangyizu/p/10286747.html）
 
 
-8.������ConcurrentHashMap
-  �������̲߳���ȫ��HashMap���̰߳�ȫ��Ч�ʵ��µ�HashTable
-  ConcurrentHashMap��Java 5��֧�ָ߲����������������̰߳�ȫHashMapʵ�֡��������룩
+    wait()和sleep()的区别
+    wait（）方法是Object类里面的，释放锁（当前线程主动释放互斥锁），需要notify或者notifyAll唤醒，
+    必须在锁内（调用notify()方法前必须获得锁）
+    （1. wait（）等待通信线程唤醒后再继续执行本线程,没唤醒的时候处于sleeping状态,不会被分布CPU，
+         也不会主动的竞争锁.
+      2. wait（long millis）等待通信线程唤醒或者最多等待millis毫秒后，自动唤醒,然后尝试竞争对象的锁，
+      如果不成功就进步blocking状态.）
+
+    sleep()是Thread类里面的，主要是让当前线程停止（一段时间），让出cpu改其它的线程，但不会释放对象锁资源以及监控状态。
+start 和 run 方法解释：　  
+1） start：
+　　用start方法来启动线程，真正实现了多线程运行，这时无需等待run方法体代码执行完毕而直接继续执行下面的代码。通过调用Thread类的start()方法来启动一个线程，
+	这时此线程处于就绪（可运行）状态，并没有运行，一旦得到cpu时间片，就开始执行run()方法，这里方法 run()称为线程体，它包含了要执行的这个线程的内容，
+	Run方法运行结束，此线程随即终止。
+2） run：
+　　run()方法只是类的一个普通方法而已，如果直接调用Run方法，程序中依然只有主线程这一个线程，其程序执行路径还是只有一条，还是要顺序执行，
+	还是要等待run方法体执行完毕后才可继续执行下面的代码，这样就没有达到写线程的目的。总结：调用start方法方可启动线程，而run方法只是thread的一个普通方法调用，
+	还是在主线程里执行。这两个方法应该都比较熟悉，把需要并行处理的代码放在run()方法中，start()方法启动线程将自动调用 run()方法，这是由jvm的内存机制规定的。
+	并且run()方法必须是public访问权限，返回值类型为void。
+
+
+8.介绍下ConcurrentHashMap
+  背景：线程不安全的HashMap，线程安全但效率低下的HashTable
+  ConcurrentHashMap是Java 5中支持高并发、高吞吐量的线程安全HashMap实现。（锁分离）
   https://blog.csdn.net/yangdeli888/article/details/44785757
 
-9.���Ȩ����ʹ����������黹����������顣
-  ���ҵĶ�ʹ���������飬����Ķ�ʹ����������
-  ��������
+9.如何权衡是使用无序的数组还是有序的数组。
+  查找的多使用有序数组，插入的多使用无序数据
+  有序数组
  
-     ���ң� ����ʹ�ö��ֲ��ң� ʱ�临�Ӷ�  O(log n)        
-     ����,  ��Ҫ�Ƚϣ��ƶ����ݣ��ҵ����ʵ�λ�ò�������O(n)         
+     查找， 可以使用二分查找， 时间复杂度  O(log n)        
+     插入,  需要比较，移动数据，找到合适的位置插入数据O(n)         
    
-  �������飺
+  无序数组：
                     
-         ���ң���Ҫѭ������  O(N)
+         查找：需要循环遍历  O(N)
                     
-         ���룺�ŵ�ĩβ�ͺ�  O(1)
+         插入：放到末尾就好  O(1)
 
-10. ��д��ʹ�ù���JUC���е���
-     �ù�Countdownlatch ��ӿڲ������ã�����Fork join�������м��㣬�ù�atomicinteger ���������������ơ�
+10. 请写出使用过的JUC包中的类
+     用过Countdownlatch 多接口并发调用，还有Fork join做过并行计算，用过atomicinteger 并发下载数量限制。
      ...............
-11.jvm�ڴ漸������������ʲô��
-   JVM�ڴ������Ϊ������֣��ֱ��Ƕѣ��������������ջ�����ط���ջ�������������
-   �ѡ� ����Java����Ĵ洢�����κ���new�ֶη����Java����ʵ�������飬���������ڶ��ϣ�
-        Java�ѿ�ʹ��-Xms -Xmx�����ڴ���ƣ�ֵ��һ����Ǵ�JDK1.7�汾֮������ʱ�����شӷ������Ƶ��˶��ϡ�
+11.jvm内存几块区域，作用是什么？
+   JVM内存区域分为五个部分，分别是堆，方法区，虚拟机栈，本地方法栈，程序计数器。
+   堆。 堆是Java对象的存储区域，任何用new字段分配的Java对象实例和数组，都被分配在堆上，
+        Java堆可使用-Xms -Xmx进行内存控制，值得一提的是从JDK1.7版本之后，运行时常量池从方法区移到了堆上。
 
 
-   �������������ڴ洢�ѱ���������ص�����Ϣ����������̬��������ʱ�����������Ĵ�������ݣ�
-           ��������JDK1.7�汾����ǰ����Ϊ���ô�����JDK1.8���ô����Ƴ���
+   方法区。它用于存储已被虚拟机加载的类信息，常量，静态变量，即时编译器编译后的代码等数据，
+           方法区在JDK1.7版本及以前被称为永久代，从JDK1.8永久代被移除。
 
-   �����ջ�������ջ��ִ��ÿ��������ʱ�򣬶��ᴴ��һ��ջ֡���ڴ洢�ֲ���������������ջ����̬���ӣ�
-             �������ڵ���Ϣ��
+   虚拟机栈。虚拟机栈中执行每个方法的时候，都会创建一个栈帧用于存储局部变量表，操作数栈，动态链接，
+             方法出口等信息。
 
-   ���ط���ջ���������ջ���ӵ��������ƣ�����������ջΪJava��������
-               ���ط���ջΪ�����ʹ�õ�Native��������ִ��ÿ�����ط�����ʱ��
-               ���ᴴ��һ��ջ֡���ڴ洢�ֲ���������������ջ����̬���ӣ��������ڵ���Ϣ��
+   本地方法栈。与虚拟机栈发挥的作用相似，相比于虚拟机栈为Java方法服务，
+               本地方法栈为虚拟机使用的Native方法服务，执行每个本地方法的时候，
+               都会创建一个栈帧用于存储局部变量表，操作数栈，动态链接，方法出口等信息。
    
-�����������ָʾJava�������һ����Ҫִ�е��ֽ���ָ�
+程序计数器。指示Java虚拟机下一条需要执行的字节码指令。
  
    
-�������������Java������ڴ滮����������з������Ͷѱ�JVM�ж���̹߳�����
-   ������ľ�̬�����ͱ�����ڷ��������������֮�乲����
-   �����ջ�����ط���ջ��pc�Ĵ�����ÿ���̶߳���ӵ�еģ������������̹߳����� 
+以上五个区域是Java虚拟机内存划分情况，其中方法区和堆被JVM中多个线程共享，
+   比如类的静态常量就被存放在方法区，供类对象之间共享，
+   虚拟机栈，本地方法栈，pc寄存器是每个线程独立拥有的，不会与其他线程共享。 
 
-   ����Java��ͨ��new����һ�������ʵ����ʱ��һ������������ջ�д���һ���ö�������ã�
-   ��һ������ڶ��ϴ���������ʵ����Ȼ�󽫶�������ָ��ö����ʵ�����������ô����ÿһ��������Ӧ��ջ֡�С�
+   所以Java在通过new创建一个类对象实例的时候，一方面会在虚拟机栈中创建一个该对象的引用，
+   另一方面会在堆上创建类对象的实例，然后将对象引用指向该对象的实例。对象引用存放在每一个方法对应的栈帧中。
  
-12.����jvm�����С��Ϊ4G
+12.设置jvm最大，最小堆为4G
    -Xmx4g -Xms4g
-   -Xms    �����ռ��ϵͳ����С�ڴ棨��ʼ�ڴ棩Ҳ���ǵ��������������� �ͻ������ô��Ķ��ڴ���� 
-   -Xmx    �����������ڴ�
-   -Xmn2g  �����������СΪ2G������JVM�ڴ��С=�������С + ���ϴ���С + �־ô���С��
-13.д����֪���������ռ��������ļ��ɣ�
-   1.�����ռ�����Serial Collector��
-   2.����/�������ռ�����Parallel / Throughput collector�� jvmĬ���ռ���
-   3.CMS�ռ�����CMS Collector���������ǲ����ռ�����CMS�ռ��������������ɨ�衱����
-   4.G1�ռ���
-14.����������50̨linux����������10��Tomcatʵ����һ��50̨���ͻ������쳣����δ���50̨Tomcat�п��ٲ����쳣��־��
-   tail -[������] tomcat��װ·��/logs/catalina.out
-   ��TomcatĿ¼conf\logging.properties��
-   �ֲ�ʽ��־���л�(tomcat + rsyslog + logrotate + centos) http://www.aichengxu.com/linux/8197109.htm
-   �Ѷ�̨Web�������ϵ�tomcat��־���͵�ͳһ��App��������
+   -Xms    虚拟机占用系统的最小内存（初始内存）也就是当你的虚拟机启动后， 就会分配这么大的堆内存给你 
+   -Xmx    设置最大可用内存
+   -Xmn2g  设置年轻代大小为2G。整个JVM内存大小=年轻代大小 + 年老代大小 + 持久代大小。
+13.写出你知道的垃圾收集器（中文即可）
+   1.串行收集器（Serial Collector）
+   2.并行/吞吐量收集器（Parallel / Throughput collector） jvm默认收集器
+   3.CMS收集器（CMS Collector）接下来是并行收集器是CMS收集器（“并发标记扫描”）。
+   4.G1收集器
+14.生产服务器50台linux主机各部署10个Tomcat实例，一共50台，客户请求异常，如何从这50台Tomcat中快速查找异常日志？
+   tail -[填行数] tomcat安装路径/logs/catalina.out
+   打开Tomcat目录conf\logging.properties，
+   分布式日志集中化(tomcat + rsyslog + logrotate + centos) http://www.aichengxu.com/linux/8197109.htm
+   把多台Web服务器上的tomcat日志发送到统一的App服务器。
    2.logstash   https://www.cnblogs.com/xing901022/p/4802822.html
                 https://www.elastic.co/cn/products/logstash
-15.������ܼ��͡�io�ܼ��͵Ķ��̴߳�����ʽ�Ƿ�����������У�����������ʲô��ԭ����ʲô��
-     ��������������������������
-16.������������Щ����ʲô����
-   Any    Ant����Ҫ�ŵ����ڶԹ������̵Ŀ����ϡ�
-   Maven  Maven����Ҫ�ŵ����������ڡ�
-   Gradle ������Ant��ǿ���������Maven���������ڹ���������ʹ�á�
+15.计算机密集型、io密集型的多线程处理方式是否有区别？如果有，具体区别是什么，原理是什么？
+     ·············
+16.构建工具有哪些？有什么区别
+   Any    Ant的主要优点在于对构建过程的控制上。
+   Maven  Maven的主要优点是生命周期。
+   Gradle 它具有Ant的强大和灵活，又有Maven的生命周期管理且易于使用。
    https://blog.csdn.net/bailyzheng/article/details/48395949
-17.Integer a=1 ,Integer b=1, a==b���滹�Ǽ٣�Ϊʲô
-   true��==�Ƚϵ���Ȼ�ǵ�ַ����Integerά����-128--127�Ļ���ء�
-18.���ð汾������������Щ����д��Git�ĳ������
+17.Integer a=1 ,Integer b=1, a==b是真还是假，为什么
+   true，==比较的虽然是地址，但Integer维护了-128--127的缓存池。
+18.常用版本管理工具有哪些，请写出Git的常用命令。
    svn git
-   ���
+   命令：
    git add   <file>
    git commit -m <message>
    git status
    git log
    git checkout -b <name>
-   git push  #push���з�֧
-   git origin master #����������֧�Ƶ�Զ�̷�֧����֧
+   git push  #push所有分支
+   git origin master #将本地主分支推到远程分支主分支
    
-19.���ÿ������Щ��д��������Ϥ�Ŀ��
-����������������
-20.�������ֲ�ʽ�����ؾ��⡢��Ⱥ��
-����������������
-  �ֲ�ʽ��ָ����ͬ��ҵ��ֲ��ڲ�ͬ�ĵط�����Ⱥָ���ǽ���̨������������һ��ʵ��ͬһҵ������������ṹ֮�ϣ����ؾ����ṩ��һ��������Ч�ķ�����չ��������������������������ǿ�������ݴ���������������������ԺͿ����ԡ�
+19.常用框架有哪些？写出你最熟悉的框架
+········
+20.如何理解分布式、负载均衡、集群。
+········
+  分布式是指将不同的业务分布在不同的地方，集群指的是将几台服务器集中在一起，实现同一业务。在现有网络结构之上，
+  负载均衡提供了一种廉价有效的方法扩展服务器带宽和增加吞吐量，加强网络数据处理能力，提高网络的灵活性和可用性。
 
 
-���䣺
+补充：
 
-1.��д�����������5��runtime exception��  
-  ��νϵͳ�쳣������RuntimeException�����࣬��jdk doc�в�RuntimeException�࣬�Ϳ��Կ��������е������б���Ҳ���ǿ��������е�ϵͳ�쳣���ұȽ���ӡ���ϵͳ�쳣�У�NullPointerException��ArrayIndexOutOfBoundsException��ClassCastException������ָ���쳣���±�Խ���쳣����ת���쳣��
+1.请写出你最常见到的5个runtime exception。  
+  所谓系统异常，就是RuntimeException的子类，在jdk doc中查RuntimeException类，就可以看到其所有的子类列表，
+  也就是看到了所有的系统异常。我比较有印象的系统异常有：
+  NullPointerException、ArrayIndexOutOfBoundsException、ClassCastException。（空指针异常，下标越界异常、类转换异常）
 
-2.�쳣
-  Throwable�������������������ࣺError��Exception��
-  Error ��ʾӦ�ó������޷��˷��ͻָ���һ���������⣬����ֻ�����ķ��ˣ����磬˵�ڴ�������߳�������ϵͳ���⡣  Exception��ʾ�����ܹ��˷��ͻָ������⣬�����ַ�Ϊϵͳ�쳣����ͨ�쳣��
-  ϵͳ�쳣����������ȱ�������µ����⣬Ҳ��������������Ա���ǲ��������µ����⣬
-  ����ʹ�����޷��˷��ͻָ��������⣬�������������»�����������ϵͳ�������л���������������
-  ���磬����ű�Խ�磨ArrayIndexOutOfBoundsException������ָ���쳣��NullPointerException������ת���쳣��ClassCastException����
-  ��ͨ�쳣�����л����ı仯���쳣�����µ����⣬���û��ܹ��˷������⣬
+2.异常
+  Throwable下面又派生了两个子类：Error和Exception，
+  Error 表示应用程序本身无法克服和恢复的一种严重问题，程序只有死的份了，例如，说内存溢出和线程死锁等系统问题。  Exception表示程序还能够克服和恢复的问题，其中又分为系统异常和普通异常，
+  系统异常是软件本身缺陷所导致的问题，也就是软件开发人员考虑不周所导致的问题，
+  软件使用者无法克服和恢复这种问题，但在这种问题下还可以让软件系统继续运行或者让软件死掉，
+  例如，数组脚本越界（ArrayIndexOutOfBoundsException），空指针异常（NullPointerException）、类转换异常（ClassCastException）；
+  普通异常是运行环境的变化或异常所导致的问题，是用户能够克服的问题，
 
-3��final, finally, finalize������ 
-����final �����������ԣ��������࣬�ֱ��ʾ���Բ��ɱ䣬�������ɸ��ǣ��಻�ɼ̳С� 
-    �ڲ���Ҫ���ʾֲ��������ֲ��������붨���final���ͣ����磬һ�δ��롭��
+3、final, finally, finalize的区别。 
+　　final 用于声明属性，方法和类，分别表示属性不可变，方法不可覆盖，类不可继承。 
+    内部类要访问局部变量，局部变量必须定义成final类型，例如，一段代码……
     
-    finally���쳣�������ṹ��һ���֣���ʾ����ִ�С�
-    finalize��Object���һ���������������ռ���ִ�е�ʱ�����ñ����ն���Ĵ˷�����
-    ���Ը��Ǵ˷����ṩ�����ռ�ʱ��������Դ���գ�����ر��ļ��ȡ�JVM����֤�˷����ܱ�����
-4.HashMap��Hashtable������
-  ��ʵ����Map�ӿ�
-  HashMap���̰߳�ȫ������null��ֵ
-  Hashtable�̰߳�ȫ��������null��ֵ
+    finally是异常处理语句结构的一部分，表示总是执行。
+    finalize是Object类的一个方法，在垃圾收集器执行的时候会调用被回收对象的此方法，
+    可以覆盖此方法提供垃圾收集时的其他资源回收，例如关闭文件等。JVM不保证此方法总被调用
+4.HashMap和Hashtable的区别
+  都实现了Map接口
+  HashMap非线程安全，允许null键值
+  Hashtable线程安全。不允许null键值
 
-5.List �� Map ����?
-  һ���Ǵ洢�������ݵļ��ϣ���һ���Ǵ洢����ֵ������˫�����ݵļ��ϣ�
-  List�д洢����������˳�򣬲��������ظ���
-  Map�д洢��������û��˳��ģ�����ǲ����ظ��ģ�����ֵ�ǿ������ظ��ġ�
+5.List 和 Map 区别?
+  一个是存储单列数据的集合，另一个是存储键和值这样的双列数据的集合，
+  List中存储的数据是有顺序，并且允许重复；
+  Map中存储的数据是没有顺序的，其键是不能重复的，它的值是可以有重复的。
 
-6.List, Set, Map�Ƿ�̳���Collection�ӿ�? 
-   List��Set�ǣ�Map���� 
+6.List, Set, Map是否继承自Collection接口? 
+   List，Set是，Map不是 
 
-7.List��Map��Set�����ӿڣ���ȡԪ��ʱ������ʲô�ص㣿 
-  ���ȣ�List��Set���������ԣ����Ƕ��ǵ���Ԫ�صļ��ϣ����ԣ�������һ������ͬ�ĸ��ӿڣ���Collection��
-  Set���治�������ظ���Ԫ�أ���ν�ظ�����������������ȣ�ע�⣬���ǽ�������ͬ���Ķ��� ��������Set����������һ��A����������Ҫ��Set�����ٴ���һ��B���󣬵�B������A����equals��ȣ���B����洢����ȥ�����ԣ�Set���ϵ�add������һ��boolean�ķ���ֵ����������û��ĳ��Ԫ�أ���ʱadd�����ɳɹ������Ԫ��ʱ���򷵻�true�������Ϻ�����ĳ��Ԫ��equals��ȵ�Ԫ��ʱ����ʱadd�����޷������Ԫ�أ����ؽ��Ϊfalse��SetȡԪ��ʱ��û��˵ȡ�ڼ�����ֻ����Iterator�ӿ�ȡ�����е�Ԫ�أ�����һ��������Ԫ�ء�
-  List��ʾ���Ⱥ�˳��ļ��ϣ� ע�⣬�������ְ����䡢����С�����۸�֮������򡣵����Ƕ�ε���add(Obj e)����ʱ��ÿ�μ���Ķ�������վ��Ʊ���Ŷ�˳��һ�����������󵽵�˳��������ʱ��Ҳ���Բ�ӣ�������add(int index,Obj e)�������Ϳ���ָ����ǰ�����ڼ����еĴ��λ�á�һ��������Ա������洢��List�У�ÿ����һ��add�������������ͱ������������һ�Σ���ʵ�������ǰ�����������洢���˼����У������ڼ�������һ����������ָ��������󣬵��������add���ʱ�����൱�ڼ������ж������ָ�������������ͼx��ʾ��List���˿�����Iterator�ӿ�ȡ�����е�Ԫ�أ�����һ��������Ԫ��֮�⣬�����Ե���get(index i)����ȷ˵��ȡ�ڼ�����
-   Map��List��Set��ͬ������˫�еļ��ϣ�������put�������������£�put(obj key,obj value)��ÿ�δ洢ʱ��Ҫ�洢һ��key/value�����ܴ洢�ظ���key������ظ��Ĺ���Ҳ�ǰ�equals�Ƚ���ȡ�ȡ����Ը���key�����Ӧ��value����get(Object key)����ֵΪkey ����Ӧ��value�����⣬Ҳ���Ի�����е�key�Ľ�ϣ������Ի�����е�value�Ľ�ϣ������Ի��key��value��ϳɵ�Map.Entry����ļ��ϡ�
+7.List、Map、Set三个接口，存取元素时，各有什么特点？ 
+  首先，List与Set具有相似性，它们都是单列元素的集合，所以，它们有一个功共同的父接口，叫Collection。
+  Set里面不允许有重复的元素，所谓重复，即不能有两个相等（注意，不是仅仅是相同）的对象 ，即假设Set集合中有了一个A对象，现在我要向Set集合再存入一个B对象，但B对象与A对象equals相等，则B对象存储不进去，所以，Set集合的add方法有一个boolean的返回值，当集合中没有某个元素，此时add方法可成功加入该元素时，则返回true，当集合含有与某个元素equals相等的元素时，此时add方法无法加入该元素，返回结果为false。Set取元素时，没法说取第几个，只能以Iterator接口取得所有的元素，再逐一遍历各个元素。
+  List表示有先后顺序的集合， 注意，不是那种按年龄、按大小、按价格之类的排序。当我们多次调用add(Obj e)方法时，每次加入的对象就像火车站买票有排队顺序一样，按先来后到的顺序排序。有时候，也可以插队，即调用add(int index,Obj e)方法，就可以指定当前对象在集合中的存放位置。一个对象可以被反复存储进List中，每调用一次add方法，这个对象就被插入进集合中一次，其实，并不是把这个对象本身存储进了集合中，而是在集合中用一个索引变量指向这个对象，当这个对象被add多次时，即相当于集合中有多个索引指向了这个对象，如图x所示。List除了可以以Iterator接口取得所有的元素，再逐一遍历各个元素之外，还可以调用get(index i)来明确说明取第几个。
+   Map与List和Set不同，它是双列的集合，其中有put方法，定义如下：put(obj key,obj value)，每次存储时，要存储一对key/value，不能存储重复的key，这个重复的规则也是按equals比较相等。取则可以根据key获得相应的value，即get(Object key)返回值为key 所对应的value。另外，也可以获得所有的key的结合，还可以获得所有的value的结合，还可以获得key和value组合成的Map.Entry对象的集合。
   
-  List ���ض�����������Ԫ�أ������ظ�Ԫ�ء�
-  Set �޷�ӵ���ظ�Ԫ��,�ڲ�����
-  Map ����key-valueֵ��value�ɶ�ֵ��
-   HashSet����hashcodeֵ��ĳ�����㷽ʽ���д洢��
-   ������ֱ�Ӱ�hashCodeֵ�Ĵ�С���д洢�����磬"abc" ---> 78��"def" ---> 62��
-   "xyz" ---> 65��hashSet�еĴ洢˳����62,65,78��
-   LinkedHashSet�������˳��洢��
-  �Ǳ��洢�����hashcode��������ʲô�����أ�
-  ѧԱ����!hashset���ϱȽ����������Ƿ���ȣ����ȿ�hashcode�����Ƿ���ȣ�  Ȼ��equals�����Ƿ���ȡ�
-  new ����Student���뵽HashSet�У���HashSet��size��ʵ��hashcode��equals�������ٿ�size��
+  List 以特定次序来持有元素，可有重复元素。
+  Set 无法拥有重复元素,内部排序。
+  Map 保存key-value值，value可多值。
+   HashSet按照hashcode值的某种运算方式进行存储，
+   而不是直接按hashCode值的大小进行存储。例如，"abc" ---> 78，"def" ---> 62，
+   "xyz" ---> 65在hashSet中的存储顺序不是62,65,78，
+   LinkedHashSet按插入的顺序存储，
+  那被存储对象的hashcode方法还有什么作用呢？
+  学员想想!hashset集合比较两个对象是否相等，首先看hashcode方法是否相等，  然后看equals方法是否相等。
+  new 两个Student插入到HashSet中，看HashSet的size，实现hashcode和equals方法后再看size。
 
-   ͬһ�����������Vector�м����Ρ������������Ԫ�أ��൱�ڼ�������һ���������ӵ���Ŀ�������HashSet��ȴ�Ӳ��˶�εġ� 
+   同一个对象可以在Vector中加入多次。往集合里面加元素，相当于集合里用一根绳子连接到了目标对象。往HashSet中却加不了多次的。 
 
-8.˵��ArrayList,Vector, LinkedList�Ĵ洢���ܺ����� 
-    ArrayList��Vector����ʹ�����鷽ʽ�洢���ݣ�������Ԫ��������ʵ�ʴ洢�������Ա����ӺͲ���Ԫ�أ�
-    ���Ƕ�����ֱ�Ӱ��������Ԫ�أ����ǲ���Ԫ��Ҫ�漰����Ԫ���ƶ����ڴ�����������������ݿ��������������
-    Vector����ʹ����synchronized�������̰߳�ȫ����
-    ͨ�������Ͻ�ArrayList�
-    ��LinkedListʹ��˫������ʵ�ִ洢�����������������Ҫ����ǰ�����������
-    ���ǲ�������ʱֻ��Ҫ��¼�����ǰ����ɣ����Բ����ٶȽϿ졣
-     LinkedListҲ���̲߳���ȫ�ģ�LinkedList�ṩ��һЩ������ʹ��LinkedList���Ա�������ջ�Ͷ�����ʹ�á�
+8.说出ArrayList,Vector, LinkedList的存储性能和特性 
+    ArrayList和Vector都是使用数组方式存储数据，此数组元素数大于实际存储的数据以便增加和插入元素，
+    它们都允许直接按序号索引元素，但是插入元素要涉及数组元素移动等内存操作，所以索引数据快而插入数据慢，
+    Vector由于使用了synchronized方法（线程安全），
+    通常性能上较ArrayList差，
+    而LinkedList使用双向链表实现存储，按序号索引数据需要进行前向或后向遍历，
+    但是插入数据时只需要记录本项的前后项即可，所以插入速度较快。
+     LinkedList也是线程不安全的，LinkedList提供了一些方法，使得LinkedList可以被当作堆栈和队列来使用。
 
-9.Collection �� Collections������ 
-����Collection�Ǽ�������ϼ��ӿڣ��̳������Ľӿ���Ҫ��Set ��List. 
-    Collections����Լ������һ�������࣬���ṩһϵ�о�̬����ʵ�ֶԸ��ּ��ϵ������������̰߳�ȫ���Ȳ����� 
-10.Set���Ԫ���ǲ����ظ��ģ���ô��ʲô�����������ظ������? ����==����equals()? �����к�����? 
-   Set���Ԫ���ǲ����ظ��ģ�Ԫ���ظ������ʹ��equals()���������жϵġ� 
-   equals()��==������������ֵ�Ƿ�ָ��ͬһ����equals()�����б����ǣ�
-  Ϊ���ǵ���������Ķ�������ݺ���������Ļ���������ֵ��
+9.Collection 和 Collections的区别。 
+　　Collection是集合类的上级接口，继承与他的接口主要有Set 和List. 
+    Collections是针对集合类的一个帮助类，他提供一系列静态方法实现对各种集合的搜索、排序、线程安全化等操作。 
+10.Set里的元素是不能重复的，那么用什么方法来区分重复与否呢? 是用==还是equals()? 它们有何区别? 
+   Set里的元素是不能重复的，元素重复与否是使用equals()方法进行判断的。 
+   equals()和==方法决定引用值是否指向同一对象equals()在类中被覆盖，
+  为的是当两个分离的对象的内容和类型相配的话，返回真值。
 
-11.����֪���ļ����඼����Щ����Ҫ������ 
+11.你所知道的集合类都有哪些？主要方法？ 
    ArrayList/Vector---->List
                        ------> Collection
    HashSet/TreeSet------>Set
 
      Propeties---->HashTable
-		    ---->Map
+						---->Map
             Treemap/HashMap
 
-12.���ݿ�������4�����ԣ�ACID��
-   1��A (Atomicity) ԭ���ԣ�����������в�����Ҫ���ɹ���Ҫ��ʧ�ܣ�
-   ԭ���Ժ��������⣬Ҳ����˵����������в���Ҫôȫ�����꣬Ҫô��������
-   ����ɹ�������������������в������ɹ���ֻҪ��һ������ʧ�ܣ����������ʧ�ܣ���Ҫ�ع���
-   ��������ת�ˣ���A�˻�ת100Ԫ��B�˻�����Ϊ�������裺1����A�˻�ȡ100Ԫ��2������100Ԫ��B�˻���
-   ������Ҫôһ����ɣ�Ҫôһ����ɣ����ֻ��ɵ�һ�����ڶ���ʧ�ܣ�Ǯ��Ī����������100Ԫ��
+12.数据库的事物的4大特性（ACID）
+   1、A (Atomicity) 原子性（事务里的所有操作，要不成功，要不失败）
+   原子性很容易理解，也就是说事务里的所有操作要么全部做完，要么都不做，
+   事务成功的条件是事务里的所有操作都成功，只要有一个操作失败，整个事务就失败，需要回滚。
+   比如银行转账，从A账户转100元至B账户，分为两个步骤：1）从A账户取100元；2）存入100元至B账户。
+   这两步要么一起完成，要么一起不完成，如果只完成第一步，第二步失败，钱会莫名其妙少了100元。
 
 
-   2��C (Consistency) һ����
-   һ����Ҳ�Ƚ��������⣬Ҳ����˵���ݿ�Ҫһֱ����һ���Ե�״̬����������в���ı����ݿ�ԭ����һ����Լ����
+   2、C (Consistency) 一致性
+   一致性也比较容易理解，也就是说数据库要一直处于一致性的状态，事务的运行不会改变数据库原本的一致性约束。
    
-   3��I (Isolation) �����ԣ������ԣ�
-   ��ν�Ķ�������ָ����������֮�䲻�ụ��Ӱ�죬
-   ���һ������Ҫ���ʵ��������ڱ�����һ�������޸ģ�ֻҪ����һ������δ�ύ��
-   �������ʵ����ݾͲ���δ�ύ�����Ӱ�졣
-   ���������и������Ǵ�A�˻�ת100Ԫ��B�˻�����������׻�δ��ɵ�����£������ʱB��ѯ�Լ����˻���
-   �ǿ����������ӵ�100Ԫ��
+   3、I (Isolation) 隔离性（独立性）
+   所谓的独立性是指并发的事务之间不会互相影响，
+   如果一个事务要访问的数据正在被另外一个事务修改，只要另外一个事务未提交，
+   它所访问的数据就不受未提交事务的影响。
+   比如现有有个交易是从A账户转100元至B账户，在这个交易还未完成的情况下，如果此时B查询自己的账户，
+   是看不到新增加的100元的
 
 
-     4��D (Durability) �־���
-     �־�����ָһ�������ύ�����������޸Ľ������õı��������ݿ��ϣ���ʹ����崻�Ҳ���ᶪʧ��
+     4、D (Durability) 持久性
+     持久性是指一旦事务提交后，它所做的修改将会永久的保存在数据库上，即使出现宕机也不会丢失。
 
-   ������뼶��
-   1.���
-   �����ָ��һ���������������ȡ����һ��δ�ύ�������е����ݡ�
-   2.�����ظ���
-   �����ظ�����ָ�ڶ������ݿ��е�ĳ�����ݣ�һ������Χ�ڶ�β�ѯȴ�����˲�ͬ������ֵ�����������ڲ�ѯ�����
-   ����һ�������޸Ĳ��ύ�ˡ�
-   �����ĳһ�����ȡ����һ������δ�ύ�������ݣ��������ظ������Ƕ�ȡ��ǰһ�����ύ�����ݡ�
-   3.�ö��������
-   �ö�������Ƕ���ִ��ʱ������һ������
-   ��������T1��һ���������е��е�ĳ�����������˴ӡ�1���޸�Ϊ��2���Ĳ���  ��
-   ��ʱ����T2�ֶ�������в�����һ���������������������ֵ����Ϊ��1�������ύ�����ݿ⡣
-   ����������T1���û�����ٲ鿴�ո��޸ĵ����ݣ��ᷢ�ֻ���һ��û���޸ģ���ʵ�����Ǵ�����T2�����ӵģ�
-   �ͺ�������þ�һ��������Ƿ����˻ö���
+   事务隔离级别
+   1.脏读
+   脏读是指在一个事务处理过程里读取了另一个未提交的事务中的数据。
+   2.不可重复读
+   不可重复读是指在对于数据库中的某个数据，一个事务范围内多次查询却返回了不同的数据值，这是由于在查询间隔，
+   被另一个事务修改并提交了。
+   脏读是某一事务读取了另一个事务未提交的脏数据，而不可重复读则是读取了前一事务提交的数据。
+   3.幻读（虚读）
+   幻读是事务非独立执行时发生的一种现象。
+   例如事务T1对一个表中所有的行的某个数据项做了从“1”修改为“2”的操作  ，
+   这时事务T2又对这个表中插入了一行数据项，而这个数据项的数值还是为“1”并且提交给数据库。
+   而操作事务T1的用户如果再查看刚刚修改的数据，会发现还有一行没有修改，其实这行是从事务T2中添加的，
+   就好像产生幻觉一样，这就是发生了幻读。
    
-   �ö��Ͳ����ظ������Ƕ�ȡ����һ���Ѿ��ύ���������������ͬ����
-   ����ͬ���ǲ����ظ�����ѯ�Ķ���ͬһ����������ö���Ե���һ���������壨�������ݵĸ�������
+   幻读和不可重复读都是读取了另一条已经提交的事务（这点就脏读不同），
+   所不同的是不可重复读查询的都是同一个数据项，而幻读针对的是一批数据整体（比如数据的个数）。
   
-    ����������MySQL���ݿ�Ϊ�����ṩ�����ָ��뼶��
+    现在来看看MySQL数据库为我们提供的四种隔离级别：
 
-������ Serializable (���л�)���ɱ�������������ظ������ö��ķ�����
+　　① Serializable (串行化)：可避免脏读、不可重复读、幻读的发生。
 
-������ Repeatable read (���ظ���)���ɱ�������������ظ����ķ�����
+　　② Repeatable read (可重复读)：可避免脏读、不可重复读的发生。
 
-������ Read committed (�����ύ)���ɱ�������ķ�����
+　　③ Read committed (读已提交)：可避免脏读的发生。
 
-������ Read uncommitted (��δ�ύ)����ͼ����κ�������޷���֤��
+　　④ Read uncommitted (读未提交)：最低级别，任何情况都无法保证。
  
-    ��MySQL���ݿ��У�֧���������ָ��뼶��
-    Ĭ�ϵ�ΪRepeatable read (���ظ���)��
-    ����Oracle���ݿ��У�ֻ֧��Serializable (���л�)�����Read committed (�����ύ)�����ּ���
-    ����Ĭ�ϵ�ΪRead committed����
+    在MySQL数据库中，支持上面四种隔离级别，
+    默认的为Repeatable read (可重复读)；
+    而在Oracle数据库中，只支持Serializable (串行化)级别和Read committed (读已提交)这两种级别，
+    其中默认的为Read committed级别。
    
-  ���䣺
-    CAPֻ��3��2
-    CAP���۾���˵�ڷֲ�ʽ�洢ϵͳ�У����ֻ��ʵ����������㡣�����ڵ�ǰ������Ӳ���϶�������ӳٶ��������⣬
-    ���Է��������������Ǳ�����Ҫʵ�ֵġ�
-    ��������ֻ����һ���ԺͿ�����֮�����Ȩ�⣬û��NoSQLϵͳ��ͬʱ��֤�����㡣
+  补充：
+    CAP只能3进2
+    CAP理论就是说在分布式存储系统中，最多只能实现上面的两点。而由于当前的网络硬件肯定会出现延迟丢包等问题，
+    所以分区容忍性是我们必须需要实现的。
+    所以我们只能在一致性和可用性之间进行权衡，没有NoSQL系统能同时保证这三点。
 
-    C ǿһ����
-    A ������
-    p �����ݴ���
+    C 强一致性
+    A 可用性
+    p 分区容错性
  
-    CA ��ͳ�����ݿ� orale mysql -���㼯Ⱥ������һ���ԣ������Ե�ϵͳ��ͨ���ڿ���չ���ϲ�̫ǿ��
-    cp redis Mongodb            -����һ���ԣ����������Ե�ϵͳ��ͨ�����ܲ����ر�ߡ�
-    ap �������վ�ܹ���ѡ��     -��������ԣ����������Ե�ϵͳ��ͨ�����ܶ�һ����Ҫ���һЩ��
+    CA 传统的数据库 orale mysql -单点集群，满足一致性，可用性的系统，通常在可扩展性上不太强大。
+    cp redis Mongodb            -满足一致性，分区容忍性的系统，通常性能不是特别高。
+    ap 大多数网站架构的选择     -满足可用性，分区容忍性的系统，通常可能对一致性要求低一些。
     
-    BASE����Ϊ�˽����ϵ���ݿ�ǿһ������������������Ŀ����Խ��Ͷ�����Ľ��������
-    BASE��ʵ�����������������д��
-??? �������ã�Basically Available��
-??? ��״̬��Soft state��
-??? ����һ�£�Eventually consistent��
-    1�ֲ�ʽ����ͬ�Ķ�̨���������沿��ͬ�ķ���ģ�飨���̣���
-             ����֮��ͨ��Rpc/Rmi֮��ͨ�ź͵��ã������ṩ���������Э����
-    2��Ⱥ����ͬ�Ķ�̨���������沿����ͬ�ķ���ģ�飬
-           ͨ���ֲ�ʽ������������ͳһ�ĵ��ȣ������ṩ����ͷ��ʡ�
-     ���ؾ��⣺
+    BASE就是为了解决关系数据库强一致性引起的问题而引起的可用性降低而提出的解决方案。
+    BASE其实是下面三个术语的缩写：
+	基本可用（Basically Available）
+	软状态（Soft state）
+	最终一致（Eventually consistent）
+    1分布式：不同的多台服务器上面部署不同的服务模块（工程），
+             他们之间通过Rpc/Rmi之间通信和调用，对外提供服务和组内协作。
+    2集群：不同的多台服务器上面部署相同的服务模块，
+           通过分布式调度软件进行统一的调度，对外提供服务和访问。
+     负载均衡：
      https://www.cnblogs.com/danbing/p/7459224.html
+
+	RestFul风格
+	是为了统一代码风格，便于团队开发，特别是面向接口开发时！利用http请求方式区分对CRUD操作。get获取资源，post新建资源，put更新资源，delete删除资源。
+	看Url就知道要什么                 面向资源，资源通过url暴露。
+	看http method就知道干什么
+	看http status code就知道结果如何
+	
+SpringBoot和SpringMVC的区别
+	SpringBoot整合了spring一系列框架，实现自动配置，简化开发，用一个个starter代替xml文件配置。我们可以自定义自己的starter,也可以替换一些starter，默认日志框架logback,替换成log4g。
+	Spring MVC提供了一种轻度耦合的方式来开发web应用。
+
+java中间件
+	中间件 
+	有消息队列中间件、数据访问中间件（ODBC、jdbc）、远程过程调用中间件、交易中间件。
+	非底层操作系统软件，非业务应用软件，不是直接给最终用户使用的，不能直接给客户带来价值的软件统称为中间件。 
+	消息中间件 
+	管制关注于数据的发送和接收，利用高效可靠的异步消息传递机制集成分布式系统。 
+	优点 
+	① 解耦 ② 异步 ③ 横向扩展 ④ 安全可靠 ⑤ 顺序保证（比如kafka） 
+	jms 
+	java消息服务(Java Message Service)即JMS，是一个Java平台中关于面向消息中间件的api，用于在两个应用程序之间，或分布式系统中发送消息，进行异步通信 
+	什么是AMQP 
+	AMQP(advanced message queuing protocol)是一个提供统一消息服务的应用层标准协议，基于此协议的客户端与消息中间件可传递消息，并不受客户端/中间件不同产品，不同开发语言等条件的限制 
+	常见消息中间件 
+	activeMQ（支持多语言，实现jms1.1，j2ee1.4规范），
+	RabbitMQ（支持更多语言，基于AMQP规范），
+	kafka(高吞吐量，分布式，分区,O(1)磁盘顺序提供消息持久化) 
+	#https://blog.csdn.net/u013123635/article/details/78362360 
+
+
+面向对象(OOP)和面向切面(AOP)
+	面向对象：即都是以方法调用作为基本执行单位展开的。（如果）将方法调用当做一个连接点，那么连接点串起来的程序执行流就是整个程序的执行过程。
+	面向切面：AOP将每一个方法调用，即连接点作为编程入口，针对方法调用进行编程。从执行的逻辑上来看，相当于在之前纵向的按照时间轴执行的程序横
+	向切入。相当于将之前的程序横向切割成若干的面，即Aspect每个面被称为切面。
+
+读写分离、分库分表（MyCat)
+
+
+
+面试遇到的问题：
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       

@@ -22,9 +22,10 @@ public class ServerSocketTest {
 			//获取输入流，并且指定统一的编码格式
 			BufferedReader bufferedReader = 
 					new BufferedReader(new InputStreamReader(socket.getInputStream(),"UTF-8"));
-			String str=bufferedReader.readLine();
+			String str;
+			
 			//通过while循环不断读取信息
-			if(str != null) {
+			while((str = bufferedReader.readLine())!=null) {
 				System.out.println("client："+str);
 			}
 		} catch (Exception e) {
