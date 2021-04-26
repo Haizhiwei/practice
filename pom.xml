@@ -30,7 +30,7 @@
 	<joda-time.version>2.10</joda-time.version>
 	
 	<commons-lang3.version>3.3.2</commons-lang3.version>
-	<commons-io.version>2.4</commons-io.version>
+	<commons-io.version>2.7</commons-io.version>
 	<commons-net.version>3.3</commons-net.version>
 	<guava.version>20.0</guava.version>
 	
