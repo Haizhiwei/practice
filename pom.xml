@@ -12,7 +12,7 @@
   	<mybatis.version>3.3.0</mybatis.version>
 	<mybatis-spring.version>1.2.3</mybatis-spring.version>
 	<mybatis.paginator.version>1.2.15</mybatis.paginator.version>
-	<mysql.version>5.1.36</mysql.version>
+	<mysql.version>8.0.28</mysql.version>
 	<druid.version>1.0.15</druid.version>
 	
 	<!-- 缓存  -->
